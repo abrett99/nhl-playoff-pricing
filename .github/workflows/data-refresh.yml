@@ -1,0 +1,55 @@
+name: Data refresh (team/goalie stats)
+
+on:
+  schedule:
+    # Once daily at 6am ET (10:00 UTC) — after all games finished
+    - cron: '0 10 * * *'
+  workflow_dispatch:
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - run: npm ci
+
+      - name: Ingest MoneyPuck
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: node scripts/ingest-moneypuck.js
+
+      # NST scraping requires Playwright (blocks direct fetch). Do this after
+      # wiring up the playwright-based scraper:
+      # - name: Setup Playwright
+      #   run: npx playwright install --with-deps chromium
+      # - name: Ingest NST
+      #   env: ...
+      #   run: node scripts/ingest-nst.js
+
+      - name: Rebuild features
+        run: node scripts/build-features.js
+
+      - name: Run health check
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: node scripts/health-check.js || echo "Health check reported issues"
+
+      - name: Commit
+        run: |
+          git config --local user.name 'github-actions[bot]'
+          git config --local user.email 'github-actions[bot]@users.noreply.github.com'
+          git add data/
+          if ! git diff --cached --quiet; then
+            git commit -m "daily data refresh $(date -u +%Y-%m-%dZ)"
+            git push
+          else
+            echo "No data changes"
+          fi

@@ -1,0 +1,48 @@
+{
+  "lastGoodPulls": {
+    "test_source": {
+      "path": "raw/test_source/2026-04-14T23-20-06Z.json",
+      "timestamp": "2026-04-14T23:20:06.085Z",
+      "variant": "",
+      "layersPassed": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "previousPath": "raw/test_source/2026-04-14T23-20-06Z.json"
+    },
+    "roundtrip_test": {
+      "path": "raw/roundtrip_test/2026-04-14T23-20-11Z.json",
+      "timestamp": "2026-04-14T23:20:11.599Z",
+      "variant": "",
+      "layersPassed": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "previousPath": "raw/roundtrip_test/2026-04-14T23-20-10Z.json"
+    }
+  },
+  "quarantined": [
+    {
+      "source": "test_source",
+      "path": "quarantined/test_source/2026-04-14T23-20-07Z.json",
+      "timestamp": "2026-04-14T23:20:07.187Z",
+      "variant": "",
+      "failedChecks": [
+        {
+          "layer": 3,
+          "checkName": "semantic_ranges",
+          "message": "out of range"
+        }
+      ]
+    }
+  ],
+  "stats": {
+    "totalPulls": 12,
+    "totalQuarantined": 1
+  },
+  "lastUpdated": "2026-04-14T23:20:11.599Z"
+}

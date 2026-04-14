@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+
+# Build output
+dist/
+build/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Local dev scratch
+scratch/
+tmp/
+
+# Keep data/raw and data/derived committed (this is the whole point — audit trail)
+# Only ignore cached scratch inside data/
+data/cache/
+data/*.tmp

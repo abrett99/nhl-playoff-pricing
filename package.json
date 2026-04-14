@@ -1,0 +1,28 @@
+{
+  "name": "nhl-playoff-pricing",
+  "version": "0.1.0",
+  "description": "NHL Stanley Cup playoff series pricing model with live state machine, hypothetical engine, and Telegram alerts",
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/",
+    "test:leakage": "node --test tests/leakage.test.js",
+    "test:sanity": "node --test tests/sanity.test.js",
+    "test:mc": "node --test tests/mc.test.js",
+    "ingest:nhl-schedule": "node scripts/ingest-nhl-schedule.js",
+    "ingest:odds": "node scripts/ingest-odds.js",
+    "ingest:moneypuck": "node scripts/ingest-moneypuck.js",
+    "build:features": "node scripts/build-features.js",
+    "simulate:series": "node scripts/simulate-series.js",
+    "state:update": "node scripts/update-series-state.js",
+    "alert:test": "node scripts/test-telegram.js"
+  },
+  "dependencies": {
+    "jszip": "^3.10.1"
+  },
+  "devDependencies": {
+    "playwright": "^1.48.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

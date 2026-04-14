@@ -1,0 +1,89 @@
+name: Deploy dashboard to GitHub Pages
+
+on:
+  # On every push to main
+  push:
+    branches: [main]
+    paths:
+      - 'src/ui/**'
+      - 'data/derived/**'
+      - '.github/workflows/deploy-pages.yml'
+  # Also after data updates via the other workflows trigger a rebuild
+  workflow_run:
+    workflows:
+      - 'Playoff results'
+      - 'Data refresh (team/goalie stats)'
+      - 'Odds snapshot'
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: 'pages'
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Assemble dashboard payload
+        run: |
+          set -e
+          mkdir -p _site
+
+          # Build the series manifest so the UI knows what to fetch
+          node scripts/build-series-manifest.js || echo "No state yet"
+
+          cp src/ui/index.html _site/index.html
+
+          # Bundle the most recent derived state (if it exists) as JSON
+          # the UI can fetch to hydrate series cards on load.
+          mkdir -p _site/data
+          if [ -d data/derived/series_state ]; then
+            cp -r data/derived/series_state _site/data/series_state 2>/dev/null || true
+          fi
+          if [ -f data/derived/series_manifest.json ]; then
+            cp data/derived/series_manifest.json _site/data/ 2>/dev/null || true
+          fi
+          if [ -f data/derived/seeding_projection.json ]; then
+            cp data/derived/seeding_projection.json _site/data/ 2>/dev/null || true
+          fi
+          if [ -f data/manifest/store.json ]; then
+            cp data/manifest/store.json _site/data/ 2>/dev/null || true
+          fi
+
+          # Include a build manifest so the UI shows "last updated"
+          cat > _site/data/build.json <<EOF
+          {
+            "builtAt": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+            "commit": "${{ github.sha }}",
+            "ref": "${{ github.ref }}"
+          }
+          EOF
+
+          ls -la _site/
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

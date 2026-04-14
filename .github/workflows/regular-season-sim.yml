@@ -1,0 +1,41 @@
+name: Regular season seeding sim
+
+on:
+  schedule:
+    # Daily at 7am ET (11:00 UTC) — after previous night's games settled
+    - cron: '0 11 * * *'
+  workflow_dispatch:
+
+jobs:
+  simulate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - run: npm ci
+
+      - name: Ingest schedule & standings
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: node scripts/ingest-nhl-schedule.js
+
+      - name: Run seeding simulation
+        run: node scripts/simulate-regular-season.js --trials=2000
+
+      - name: Commit
+        run: |
+          git config --local user.name 'github-actions[bot]'
+          git config --local user.email 'github-actions[bot]@users.noreply.github.com'
+          git add data/derived/ data/manifest/ data/raw/ 2>/dev/null || true
+          if ! git diff --cached --quiet; then
+            git commit -m "seeding sim $(date -u +%Y-%m-%dZ)"
+            git push
+          else
+            echo "No changes"
+          fi
