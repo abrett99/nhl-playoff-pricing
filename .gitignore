@@ -33,3 +33,9 @@ tmp/
 # Only ignore cached scratch inside data/
 data/cache/
 data/*.tmp
+
+# Kaggle downloaded data (too large, reproducible via scripts/download-kaggle.py)
+data/raw/kaggle/
+
+# Python virtual environment
+.venv/
