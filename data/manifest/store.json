@@ -1,8 +1,8 @@
 {
   "lastGoodPulls": {
     "test_source": {
-      "path": "raw/test_source/2026-04-14T23-20-06Z.json",
-      "timestamp": "2026-04-14T23:20:06.085Z",
+      "path": "raw/test_source/2026-04-15T02-28-31Z.json",
+      "timestamp": "2026-04-15T02:28:31.035Z",
       "variant": "",
       "layersPassed": [
         1,
@@ -10,11 +10,11 @@
         3,
         4
       ],
-      "previousPath": "raw/test_source/2026-04-14T23-20-06Z.json"
+      "previousPath": "raw/test_source/2026-04-15T02-28-31Z.json"
     },
     "roundtrip_test": {
-      "path": "raw/roundtrip_test/2026-04-14T23-20-11Z.json",
-      "timestamp": "2026-04-14T23:20:11.599Z",
+      "path": "raw/roundtrip_test/2026-04-15T02-28-36Z.json",
+      "timestamp": "2026-04-15T02:28:36.555Z",
       "variant": "",
       "layersPassed": [
         1,
@@ -22,7 +22,7 @@
         3,
         4
       ],
-      "previousPath": "raw/roundtrip_test/2026-04-14T23-20-10Z.json"
+      "previousPath": "raw/roundtrip_test/2026-04-15T02-28-35Z.json"
     }
   },
   "quarantined": [
@@ -38,11 +38,76 @@
           "message": "out of range"
         }
       ]
+    },
+    {
+      "source": "test_source",
+      "path": "quarantined/test_source/2026-04-15T01-52-59Z.json",
+      "timestamp": "2026-04-15T01:52:59.148Z",
+      "variant": "",
+      "failedChecks": [
+        {
+          "layer": 3,
+          "checkName": "semantic_ranges",
+          "message": "out of range"
+        }
+      ]
+    },
+    {
+      "source": "test_source",
+      "path": "quarantined/test_source/2026-04-15T01-59-21Z.json",
+      "timestamp": "2026-04-15T01:59:21.287Z",
+      "variant": "",
+      "failedChecks": [
+        {
+          "layer": 3,
+          "checkName": "semantic_ranges",
+          "message": "out of range"
+        }
+      ]
+    },
+    {
+      "source": "test_source",
+      "path": "quarantined/test_source/2026-04-15T02-21-23Z.json",
+      "timestamp": "2026-04-15T02:21:23.007Z",
+      "variant": "",
+      "failedChecks": [
+        {
+          "layer": 3,
+          "checkName": "semantic_ranges",
+          "message": "out of range"
+        }
+      ]
+    },
+    {
+      "source": "test_source",
+      "path": "quarantined/test_source/2026-04-15T02-23-34Z.json",
+      "timestamp": "2026-04-15T02:23:34.393Z",
+      "variant": "",
+      "failedChecks": [
+        {
+          "layer": 3,
+          "checkName": "semantic_ranges",
+          "message": "out of range"
+        }
+      ]
+    },
+    {
+      "source": "test_source",
+      "path": "quarantined/test_source/2026-04-15T02-28-32Z.json",
+      "timestamp": "2026-04-15T02:28:32.138Z",
+      "variant": "",
+      "failedChecks": [
+        {
+          "layer": 3,
+          "checkName": "semantic_ranges",
+          "message": "out of range"
+        }
+      ]
     }
   ],
   "stats": {
-    "totalPulls": 12,
-    "totalQuarantined": 1
+    "totalPulls": 72,
+    "totalQuarantined": 6
   },
-  "lastUpdated": "2026-04-14T23:20:11.599Z"
+  "lastUpdated": "2026-04-15T02:28:36.555Z"
 }

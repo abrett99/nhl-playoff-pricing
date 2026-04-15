@@ -1,49 +1,42 @@
 // ============================================================================
-// GOALS-BASED PER-GAME MODEL
+// GOALS-BASED PER-GAME MODEL (v2: round-adjusted)
 // ============================================================================
-// Predicts P(home wins) and expected total goals for a single playoff game,
-// using goals-for/against rolling averages from Kaggle pre-playoff snapshots.
+// Successor to v1 after 104-series backtest showed R2 collapse (36% accuracy).
 //
-// This is a parallel implementation to perGameModel.js (xG-based). Same
-// function signature and output shape, so simulateSeries() can swap between
-// them via a config flag.
+// Changes from v1:
+//  1. Round-scaled league-average baselines (R2+ opponents are above-average,
+//     so scaling opponent GA by static league avg overestimates weak teams)
+//  2. Round-scaled home ice advantage (attenuated in later rounds)
+//  3. Optional R1-performance adjustment for R2+ predictions (hot/cold carry)
+//  4. Configurable fall-back to season-long special teams (less noisy than
+//     roll_30 at end of regular season)
 //
-// Core math:
-//   1. Each team has a baseline goals-per-game (from roll_30_goals_for)
-//   2. Opponent adjustment: baseline × (opp_GA_per_game / league_avg_GA)
-//   3. Apply playoff scoring dampener (-4.4% historical)
-//   4. Apply PP%/PK% net special teams adjustment
-//   5. Apply goalie quality multiplier (manual scalar, default 1.0)
-//   6. Produce two Poisson lambdas (homeLambda, awayLambda)
-//   7. Derive P(home wins) by summing P(H > A) over reasonable score grid
-//
-// Keeps all existing context adjustments from the xG model:
-//   - Round-adjusted HIA (R1/G7 elevated)
-//   - Playoff 5v5 OT model
-//   - Zig-zag bounceback
-//   - Elimination top-6 boost
-//   - Travel penalty
-//   - Kopitar retirement intangible (LAK elimination-only)
-//   - Tortorella coaching-change blend (VGK)
+// All four fixes are controlled by the cfg object passed to
+// buildPerGameModelGoals. Defaults match the fix; pass {v1: true} to
+// reproduce original behavior for A/B comparison.
 // ============================================================================
 
 import { HISTORICAL_BASE_RATES } from '../config.js';
 import { clamp } from './util.js';
 import { kopitarMotivationAdjustment } from '../features/kopitarMotivation.js';
 
-// League averages we compare opponent rates against. Derived from 2016-2023
-// playoff averages (goals_against_per_game across all teams).
-const LEAGUE_AVG_GA_PER_GAME = 2.95;
-const LEAGUE_AVG_PP_PCT = 0.205;
-const LEAGUE_AVG_GF_PER_GAME = 2.95;
-
-// Playoff goals scoring typically drops ~4.4% vs regular season. Source:
-// historical playoff-vs-regular-season scoring comparisons 2010-2023.
+// Baseline league averages (regular season; we adjust per round below)
+const BASE_LEAGUE_GA = 2.95;
+const BASE_LEAGUE_GF = 2.95;
+const BASE_LEAGUE_PP = 0.205;
 const PLAYOFF_SCORING_DAMPENER = 0.956;
 
-/**
- * Compute Poisson probability mass P(X = k) for mean lambda.
- */
+// Round-specific baseline scalars. R1 teams are the full league range;
+// R2 teams are stronger than average (survived R1); R3/R4 stronger still.
+// These multipliers adjust the league-avg baselines we compare teams against.
+const ROUND_LEAGUE_GA_SCALAR = { 1: 1.00, 2: 0.92, 3: 0.88, 4: 0.85 };
+const ROUND_LEAGUE_GF_SCALAR = { 1: 1.00, 2: 1.04, 3: 1.06, 4: 1.08 };
+
+// Home ice advantage multiplier by round. R1 has full HIA; later rounds
+// have diminished HIA (research suggests travel/rest advantages dominate
+// later-round matchups).
+const ROUND_HIA_SCALAR = { 1: 1.00, 2: 0.80, 3: 0.65, 4: 0.50 };
+
 function poissonPmf(k, lambda) {
   if (lambda <= 0) return k === 0 ? 1 : 0;
   let logP = k * Math.log(lambda) - lambda;
@@ -51,136 +44,122 @@ function poissonPmf(k, lambda) {
   return Math.exp(logP);
 }
 
-/**
- * Given two Poisson lambdas, derive P(home wins in regulation or OT).
- * Integrates over score grid 0..12 goals per team (covers >99.9% of mass).
- * Ties are resolved by playoff OT model: 50/50 with slight HIA edge.
- */
 function homeWinProbabilityFromLambdas(homeLambda, awayLambda, overtimeHomeEdge) {
   let pHomeRegWin = 0;
-  let pAwayRegWin = 0;
   let pTie = 0;
-
   for (let h = 0; h <= 12; h++) {
     const pH = poissonPmf(h, homeLambda);
     for (let a = 0; a <= 12; a++) {
       const pA = poissonPmf(a, awayLambda);
       const joint = pH * pA;
       if (h > a) pHomeRegWin += joint;
-      else if (h < a) pAwayRegWin += joint;
-      else pTie += joint;
+      else if (h === a) pTie += joint;
     }
   }
-
-  // OT resolution: home team wins OT with probability = 0.5 + overtimeHomeEdge
   const pHomeWinsOT = pTie * (0.5 + overtimeHomeEdge);
-
   return clamp(pHomeRegWin + pHomeWinsOT, 0.05, 0.95);
 }
 
-/**
- * Compute round-adjusted home ice advantage. In the xG model this was a
- * direct probability nudge; here it's modeled as a small lambda boost for
- * home team and the OT edge.
- *
- * Round 1 and Game 7 have elevated HIA per playoff research.
- */
 function computeRoundHomeIceAdvantage(seriesState, gameNum) {
   const round = seriesState?.round ?? 1;
-  const baseEdge = 0.028; // regulation home-ice adv ~2.8% scoring boost
+  const baseEdge = 0.028;
 
   let multiplier = 1.0;
-  if (round === 1) multiplier = 1.15;          // R1 HIA elevated
-  if (gameNum === 7) multiplier = 1.35;         // G7 HIA strongly elevated
+  if (round === 1) multiplier = 1.15;
+  if (gameNum === 7) multiplier = 1.35;
+
+  const roundScalar = ROUND_HIA_SCALAR[round] ?? 0.50;
 
   return {
-    homeLambdaBoost: baseEdge * multiplier,
-    overtimeHomeEdge: 0.015 * multiplier,       // home wins playoff OT ~51.5% baseline
+    homeLambdaBoost: baseEdge * multiplier * roundScalar,
+    overtimeHomeEdge: 0.015 * multiplier * roundScalar,
   };
 }
 
-/**
- * Zig-zag: team coming off a loss plays slightly better next game. Historical
- * effect ~1.5% win prob boost for team that just lost.
- */
 function computeZigZagAdjustment(homeTeam, awayTeam, seriesState) {
   const lastGame = seriesState?.gamesPlayed?.slice(-1)[0];
   if (!lastGame) return { homeBoost: 0, awayBoost: 0 };
-
   const homeJustLost = lastGame.winner !== homeTeam;
   const awayJustLost = lastGame.winner !== awayTeam;
-
   return {
     homeBoost: homeJustLost ? 0.02 : 0,
     awayBoost: awayJustLost ? 0.02 : 0,
   };
 }
 
-/**
- * Elimination game: team facing elimination plays top-6 harder, slight boost.
- * Only applies when that team is at 3 wins against.
- */
 function computeEliminationBoost(homeTeam, awayTeam, seriesState) {
   if (!seriesState) return { homeBoost: 0, awayBoost: 0 };
   const { teamA, teamB, winsA, winsB } = seriesState;
-
   const homeIsA = homeTeam === teamA;
   const homeWins = homeIsA ? winsA : winsB;
   const awayWins = homeIsA ? winsB : winsA;
-
   const homeFacingElim = homeWins === 3 ? false : (awayWins === 3);
   const awayFacingElim = awayWins === 3 ? false : (homeWins === 3);
-
   return {
     homeBoost: homeFacingElim ? 0.03 : 0,
     awayBoost: awayFacingElim ? 0.03 : 0,
   };
 }
 
-/**
- * Travel penalty: away team returning from a long trip takes small penalty.
- * We don't have city-pair travel data in the Kaggle snapshots; approximate
- * with a uniform 1% away penalty that can be upgraded post-playoffs with
- * real travel calculation.
- */
 function computeTravelAdjustment() {
-  return -0.005; // 0.5% home advantage bump from away-team travel
+  return -0.005;
 }
 
 /**
- * Apply special-teams adjustment. A team with strong PP% scores more goals;
- * a team facing a strong PP (weak PK) concedes more. We approximate PK%
- * as (1 - opp_PP%_against) since we don't have direct PK stats from Kaggle.
+ * Special teams: use season_long_pp_pct if available in features, fall back
+ * to roll_30-derived pp_pct. Season-long is less noisy and more predictive.
  */
+function getTeamPp(teamFeatures) {
+  return teamFeatures.season_long_pp_pct
+      ?? teamFeatures.pp_pct
+      ?? BASE_LEAGUE_PP;
+}
+
 function computeSpecialTeamsMultiplier(team, opponent) {
-  const teamPp = team.pp_pct ?? LEAGUE_AVG_PP_PCT;
-  const oppPp = opponent.pp_pct ?? LEAGUE_AVG_PP_PCT;
-
-  // Team's scoring boost from its PP: (team_pp - league_avg) * ~0.3 scaling
-  const ppBoost = (teamPp - LEAGUE_AVG_PP_PCT) * 0.3;
-
-  // Opponent's PK weakness: if opp PP is elite (+league), opposite extreme
-  // suggests they may be weaker defensively; we use opp_pp_pct as a weak
-  // proxy but scaled lower. This is imperfect — NST integration will fix.
-  const pkWeakness = (oppPp - LEAGUE_AVG_PP_PCT) * 0.1;
-
+  const teamPp = getTeamPp(team);
+  const oppPp = getTeamPp(opponent);
+  const ppBoost = (teamPp - BASE_LEAGUE_PP) * 0.3;
+  const pkWeakness = (oppPp - BASE_LEAGUE_PP) * 0.1;
   return 1 + ppBoost + pkWeakness;
 }
 
 /**
+ * Round-scaled league baselines. Needs `round` from series state.
+ */
+function getRoundScaledLeagueBaselines(round = 1) {
+  const gaScalar = ROUND_LEAGUE_GA_SCALAR[round] ?? 0.85;
+  const gfScalar = ROUND_LEAGUE_GF_SCALAR[round] ?? 1.08;
+  return {
+    leagueGA: BASE_LEAGUE_GA * gaScalar,
+    leagueGF: BASE_LEAGUE_GF * gfScalar,
+  };
+}
+
+/**
+ * R1-performance carry: teams that won R1 in 4-5 games get a small boost
+ * going into R2. Teams that needed 7 games get penalized (banged up).
+ * Requires features.r1_wins and features.r1_losses if present.
+ */
+function getR1CarryMultiplier(teamFeatures, currentRound) {
+  if (currentRound <= 1) return 1.0;
+  if (teamFeatures.r1_wins == null || teamFeatures.r1_losses == null) return 1.0;
+
+  const { r1_wins, r1_losses } = teamFeatures;
+  const gamesPlayed = r1_wins + r1_losses;
+
+  if (gamesPlayed <= 5) return 1.03;       // swept or 4-1: +3%
+  if (gamesPlayed === 6) return 1.00;      // neutral
+  return 0.97;                             // 4-3: -3% (attrition)
+}
+
+/**
  * Build a per-game model function (closure over global parameters).
- * Returns a function with the signature expected by simulateSeries().
- *
- * @param {Object} params
- * @param {Object} params.teamFeatures    - { [teamAbbr]: snapshot }  (from preplayoffSnapshots)
- * @param {Object} params.goalieFeatures  - { [goalieId]: { quality: number } } OR null
- * @param {Object} params.cfg             - optional config overrides
- * @returns {Function}
  */
 export function buildPerGameModelGoals({ teamFeatures, goalieFeatures = {}, cfg = {} } = {}) {
   if (!teamFeatures) {
     throw new Error('buildPerGameModelGoals requires teamFeatures');
   }
+  const v1Compatible = !!cfg.v1;
 
   return function perGameModel({ homeTeam, awayTeam, gameNum, seriesState }) {
     const home = teamFeatures[homeTeam];
@@ -188,37 +167,42 @@ export function buildPerGameModelGoals({ teamFeatures, goalieFeatures = {}, cfg 
     if (!home) throw new Error(`No features for home team ${homeTeam}`);
     if (!away) throw new Error(`No features for away team ${awayTeam}`);
 
-    // Base lambdas: team's own GF rate, adjusted by opponent's GA rate
-    let homeLambda = (home.goals_for_per_game ?? LEAGUE_AVG_GF_PER_GAME) *
-      ((away.goals_against_per_game ?? LEAGUE_AVG_GA_PER_GAME) / LEAGUE_AVG_GA_PER_GAME);
-    let awayLambda = (away.goals_for_per_game ?? LEAGUE_AVG_GF_PER_GAME) *
-      ((home.goals_against_per_game ?? LEAGUE_AVG_GA_PER_GAME) / LEAGUE_AVG_GA_PER_GAME);
+    const round = seriesState?.round ?? 1;
 
-    // Playoff scoring dampener (~4.4% drop vs regular season)
+    // Round-adjusted league baselines (v2 fix; v1 uses static baselines)
+    const baselines = v1Compatible
+      ? { leagueGA: BASE_LEAGUE_GA, leagueGF: BASE_LEAGUE_GF }
+      : getRoundScaledLeagueBaselines(round);
+
+    let homeLambda = (home.goals_for_per_game ?? baselines.leagueGF) *
+      ((away.goals_against_per_game ?? baselines.leagueGA) / baselines.leagueGA);
+    let awayLambda = (away.goals_for_per_game ?? baselines.leagueGF) *
+      ((home.goals_against_per_game ?? baselines.leagueGA) / baselines.leagueGA);
+
     homeLambda *= PLAYOFF_SCORING_DAMPENER;
     awayLambda *= PLAYOFF_SCORING_DAMPENER;
 
-    // Special teams multipliers (PP%/PK% net effect)
+    // R1 carry-forward (v2 fix; no-op if features don't include r1 stats)
+    if (!v1Compatible) {
+      homeLambda *= getR1CarryMultiplier(home, round);
+      awayLambda *= getR1CarryMultiplier(away, round);
+    }
+
     homeLambda *= computeSpecialTeamsMultiplier(home, away);
     awayLambda *= computeSpecialTeamsMultiplier(away, home);
 
-    // Goalie quality multipliers (scalar override, default 1.0 = neutral)
     const homeGoalieId = home.default_goalie_id;
     const awayGoalieId = away.default_goalie_id;
     const homeGoalieQuality = goalieFeatures[homeGoalieId]?.quality ?? 1.0;
     const awayGoalieQuality = goalieFeatures[awayGoalieId]?.quality ?? 1.0;
-    // Better goalie = lower opposing lambda
     awayLambda /= homeGoalieQuality;
     homeLambda /= awayGoalieQuality;
 
-    // Round-adjusted home ice advantage (lambda boost + OT edge)
     const hia = computeRoundHomeIceAdvantage(seriesState, gameNum);
     homeLambda *= (1 + hia.homeLambdaBoost);
 
-    // Compute base probability from Poisson scoring distributions
     let homeWinProb = homeWinProbabilityFromLambdas(homeLambda, awayLambda, hia.overtimeHomeEdge);
 
-    // Context adjustments (small nudges on top of Poisson-derived prob)
     const zigzag = computeZigZagAdjustment(homeTeam, awayTeam, seriesState);
     homeWinProb += zigzag.homeBoost - zigzag.awayBoost;
 
@@ -227,9 +211,7 @@ export function buildPerGameModelGoals({ teamFeatures, goalieFeatures = {}, cfg 
 
     homeWinProb += computeTravelAdjustment();
 
-    homeWinProb += kopitarMotivationAdjustment({
-      homeTeam, awayTeam, seriesState,
-    });
+    homeWinProb += kopitarMotivationAdjustment({ homeTeam, awayTeam, seriesState });
 
     homeWinProb = clamp(homeWinProb, 0.05, 0.95);
 
@@ -239,7 +221,7 @@ export function buildPerGameModelGoals({ teamFeatures, goalieFeatures = {}, cfg 
       expectedTotalGoals: homeLambda + awayLambda,
       homeLambda,
       awayLambda,
-      modelVariant: 'goals',
+      modelVariant: v1Compatible ? 'goals-v1' : 'goals-v2',
     };
   };
 }
@@ -251,8 +233,12 @@ export {
   computeZigZagAdjustment,
   computeEliminationBoost,
   computeSpecialTeamsMultiplier,
-  LEAGUE_AVG_GA_PER_GAME,
-  LEAGUE_AVG_GF_PER_GAME,
-  LEAGUE_AVG_PP_PCT,
+  getRoundScaledLeagueBaselines,
+  getR1CarryMultiplier,
+  BASE_LEAGUE_GA,
+  BASE_LEAGUE_GF,
+  BASE_LEAGUE_PP as LEAGUE_AVG_PP_PCT,
+  BASE_LEAGUE_GA as LEAGUE_AVG_GA_PER_GAME,
+  BASE_LEAGUE_GF as LEAGUE_AVG_GF_PER_GAME,
   PLAYOFF_SCORING_DAMPENER,
 };

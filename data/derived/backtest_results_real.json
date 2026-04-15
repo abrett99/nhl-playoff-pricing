@@ -1,0 +1,642 @@
+{
+  "opts": {
+    "minEdge": 0.03,
+    "kelly": 0.25,
+    "bankroll": 10000,
+    "trials": 10000,
+    "startSeason": 2016,
+    "endSeason": 2024
+  },
+  "result": {
+    "overall": {
+      "n": 0,
+      "hitRate": null,
+      "avgEdge": null,
+      "roiPerUnit": null,
+      "roiKelly": null,
+      "totalPnl": 0,
+      "avgClv": null,
+      "ci95": null
+    },
+    "byMarket": {
+      "seriesWinner": {
+        "n": 0,
+        "hitRate": null,
+        "avgEdge": null,
+        "roiPerUnit": null,
+        "roiKelly": null,
+        "totalPnl": 0,
+        "avgClv": null,
+        "ci95": null
+      },
+      "over55": {
+        "n": 0,
+        "hitRate": null,
+        "avgEdge": null,
+        "roiPerUnit": null,
+        "roiKelly": null,
+        "totalPnl": 0,
+        "avgClv": null,
+        "ci95": null
+      },
+      "under55": {
+        "n": 0,
+        "hitRate": null,
+        "avgEdge": null,
+        "roiPerUnit": null,
+        "roiKelly": null,
+        "totalPnl": 0,
+        "avgClv": null,
+        "ci95": null
+      },
+      "over65": {
+        "n": 0,
+        "hitRate": null,
+        "avgEdge": null,
+        "roiPerUnit": null,
+        "roiKelly": null,
+        "totalPnl": 0,
+        "avgClv": null,
+        "ci95": null
+      },
+      "under65": {
+        "n": 0,
+        "hitRate": null,
+        "avgEdge": null,
+        "roiPerUnit": null,
+        "roiKelly": null,
+        "totalPnl": 0,
+        "avgClv": null,
+        "ci95": null
+      },
+      "goesSevenYes": {
+        "n": 0,
+        "hitRate": null,
+        "avgEdge": null,
+        "roiPerUnit": null,
+        "roiKelly": null,
+        "totalPnl": 0,
+        "avgClv": null,
+        "ci95": null
+      },
+      "goesSevenNo": {
+        "n": 0,
+        "hitRate": null,
+        "avgEdge": null,
+        "roiPerUnit": null,
+        "roiKelly": null,
+        "totalPnl": 0,
+        "avgClv": null,
+        "ci95": null
+      }
+    },
+    "accuracy": {
+      "perGame": null,
+      "series": 0.5,
+      "perGameSampleSize": 0,
+      "seriesSampleSize": 104
+    },
+    "redFlags": [],
+    "config": {
+      "minEdgePct": 0.03,
+      "bankroll": 10000,
+      "kellyFraction": 0.25,
+      "trials": 10000,
+      "seed": 42,
+      "bootstrapResamples": 1000
+    }
+  },
+  "walkForward": {
+    "windows": [
+      {
+        "trainStart": "2017-04-12T23:00:00Z",
+        "trainEnd": "2019-04-10T23:00:00.000Z",
+        "testEnd": "2020-04-04T23:00:00.000Z",
+        "trainSize": 30,
+        "testSize": 15,
+        "overall": {
+          "n": 0,
+          "hitRate": null,
+          "avgEdge": null,
+          "roiPerUnit": null,
+          "roiKelly": null,
+          "totalPnl": 0,
+          "avgClv": null,
+          "ci95": null
+        },
+        "byMarket": {
+          "seriesWinner": {
+            "n": 0,
+            "hitRate": null,
+            "avgEdge": null,
+            "roiPerUnit": null,
+            "roiKelly": null,
+            "totalPnl": 0,
+            "avgClv": null,
+            "ci95": null
+          },
+          "over55": {
+            "n": 0,
+            "hitRate": null,
+            "avgEdge": null,
+            "roiPerUnit": null,
+            "roiKelly": null,
+            "totalPnl": 0,
+            "avgClv": null,
+            "ci95": null
+          },
+          "under55": {
+            "n": 0,
+            "hitRate": null,
+            "avgEdge": null,
+            "roiPerUnit": null,
+            "roiKelly": null,
+            "totalPnl": 0,
+            "avgClv": null,
+            "ci95": null
+          },
+          "over65": {
+            "n": 0,
+            "hitRate": null,
+            "avgEdge": null,
+            "roiPerUnit": null,
+            "roiKelly": null,
+            "totalPnl": 0,
+            "avgClv": null,
+            "ci95": null
+          },
+          "under65": {
+            "n": 0,
+            "hitRate": null,
+            "avgEdge": null,
+            "roiPerUnit": null,
+            "roiKelly": null,
+            "totalPnl": 0,
+            "avgClv": null,
+            "ci95": null
+          },
+          "goesSevenYes": {
+            "n": 0,
+            "hitRate": null,
+            "avgEdge": null,
+            "roiPerUnit": null,
+            "roiKelly": null,
+            "totalPnl": 0,
+            "avgClv": null,
+            "ci95": null
+          },
+          "goesSevenNo": {
+            "n": 0,
+            "hitRate": null,
+            "avgEdge": null,
+            "roiPerUnit": null,
+            "roiKelly": null,
+            "totalPnl": 0,
+            "avgClv": null,
+            "ci95": null
+          }
+        },
+        "accuracy": {
+          "perGame": null,
+          "series": 0.6,
+          "perGameSampleSize": 0,
+          "seriesSampleSize": 15
+        },
+        "redFlags": [],
+        "config": {
+          "minEdgePct": 0.03,
+          "bankroll": 10000,
+          "kellyFraction": 0.25,
+          "trials": 10000,
+          "seed": 42,
+          "bootstrapResamples": 1000
+        }
+      },
+      {
+        "trainStart": "2017-04-12T23:00:00Z",
+        "trainEnd": "2020-04-04T23:00:00.000Z",
+        "testEnd": "2021-03-30T23:00:00.000Z",
+        "trainSize": 45,
+        "testSize": 14,
+        "overall": {
+          "n": 0,
+          "hitRate": null,
+          "avgEdge": null,
+          "roiPerUnit": null,
+          "roiKelly": null,
+          "totalPnl": 0,
+          "avgClv": null,
+          "ci95": null
+        },
+        "byMarket": {
+          "seriesWinner": {
+            "n": 0,
+            "hitRate": null,
+            "avgEdge": null,
+            "roiPerUnit": null,
+            "roiKelly": null,
+            "totalPnl": 0,
+            "avgClv": null,
+            "ci95": null
+          },
+          "over55": {
+            "n": 0,
+            "hitRate": null,
+            "avgEdge": null,
+            "roiPerUnit": null,
+            "roiKelly": null,
+            "totalPnl": 0,
+            "avgClv": null,
+            "ci95": null
+          },
+          "under55": {
+            "n": 0,
+            "hitRate": null,
+            "avgEdge": null,
+            "roiPerUnit": null,
+            "roiKelly": null,
+            "totalPnl": 0,
+            "avgClv": null,
+            "ci95": null
+          },
+          "over65": {
+            "n": 0,
+            "hitRate": null,
+            "avgEdge": null,
+            "roiPerUnit": null,
+            "roiKelly": null,
+            "totalPnl": 0,
+            "avgClv": null,
+            "ci95": null
+          },
+          "under65": {
+            "n": 0,
+            "hitRate": null,
+            "avgEdge": null,
+            "roiPerUnit": null,
+            "roiKelly": null,
+            "totalPnl": 0,
+            "avgClv": null,
+            "ci95": null
+          },
+          "goesSevenYes": {
+            "n": 0,
+            "hitRate": null,
+            "avgEdge": null,
+            "roiPerUnit": null,
+            "roiKelly": null,
+            "totalPnl": 0,
+            "avgClv": null,
+            "ci95": null
+          },
+          "goesSevenNo": {
+            "n": 0,
+            "hitRate": null,
+            "avgEdge": null,
+            "roiPerUnit": null,
+            "roiKelly": null,
+            "totalPnl": 0,
+            "avgClv": null,
+            "ci95": null
+          }
+        },
+        "accuracy": {
+          "perGame": null,
+          "series": 0.5,
+          "perGameSampleSize": 0,
+          "seriesSampleSize": 14
+        },
+        "redFlags": [],
+        "config": {
+          "minEdgePct": 0.03,
+          "bankroll": 10000,
+          "kellyFraction": 0.25,
+          "trials": 10000,
+          "seed": 42,
+          "bootstrapResamples": 1000
+        }
+      },
+      {
+        "trainStart": "2017-04-12T23:00:00Z",
+        "trainEnd": "2021-03-30T23:00:00.000Z",
+        "testEnd": "2022-03-25T23:00:00.000Z",
+        "trainSize": 59,
+        "testSize": 15,
+        "overall": {
+          "n": 0,
+          "hitRate": null,
+          "avgEdge": null,
+          "roiPerUnit": null,
+          "roiKelly": null,
+          "totalPnl": 0,
+          "avgClv": null,
+          "ci95": null
+        },
+        "byMarket": {
+          "seriesWinner": {
+            "n": 0,
+            "hitRate": null,
+            "avgEdge": null,
+            "roiPerUnit": null,
+            "roiKelly": null,
+            "totalPnl": 0,
+            "avgClv": null,
+            "ci95": null
+          },
+          "over55": {
+            "n": 0,
+            "hitRate": null,
+            "avgEdge": null,
+            "roiPerUnit": null,
+            "roiKelly": null,
+            "totalPnl": 0,
+            "avgClv": null,
+            "ci95": null
+          },
+          "under55": {
+            "n": 0,
+            "hitRate": null,
+            "avgEdge": null,
+            "roiPerUnit": null,
+            "roiKelly": null,
+            "totalPnl": 0,
+            "avgClv": null,
+            "ci95": null
+          },
+          "over65": {
+            "n": 0,
+            "hitRate": null,
+            "avgEdge": null,
+            "roiPerUnit": null,
+            "roiKelly": null,
+            "totalPnl": 0,
+            "avgClv": null,
+            "ci95": null
+          },
+          "under65": {
+            "n": 0,
+            "hitRate": null,
+            "avgEdge": null,
+            "roiPerUnit": null,
+            "roiKelly": null,
+            "totalPnl": 0,
+            "avgClv": null,
+            "ci95": null
+          },
+          "goesSevenYes": {
+            "n": 0,
+            "hitRate": null,
+            "avgEdge": null,
+            "roiPerUnit": null,
+            "roiKelly": null,
+            "totalPnl": 0,
+            "avgClv": null,
+            "ci95": null
+          },
+          "goesSevenNo": {
+            "n": 0,
+            "hitRate": null,
+            "avgEdge": null,
+            "roiPerUnit": null,
+            "roiKelly": null,
+            "totalPnl": 0,
+            "avgClv": null,
+            "ci95": null
+          }
+        },
+        "accuracy": {
+          "perGame": null,
+          "series": 0.4666666666666667,
+          "perGameSampleSize": 0,
+          "seriesSampleSize": 15
+        },
+        "redFlags": [],
+        "config": {
+          "minEdgePct": 0.03,
+          "bankroll": 10000,
+          "kellyFraction": 0.25,
+          "trials": 10000,
+          "seed": 42,
+          "bootstrapResamples": 1000
+        }
+      },
+      {
+        "trainStart": "2017-04-12T23:00:00Z",
+        "trainEnd": "2022-03-25T23:00:00.000Z",
+        "testEnd": "2023-03-20T23:00:00.000Z",
+        "trainSize": 74,
+        "testSize": 15,
+        "overall": {
+          "n": 0,
+          "hitRate": null,
+          "avgEdge": null,
+          "roiPerUnit": null,
+          "roiKelly": null,
+          "totalPnl": 0,
+          "avgClv": null,
+          "ci95": null
+        },
+        "byMarket": {
+          "seriesWinner": {
+            "n": 0,
+            "hitRate": null,
+            "avgEdge": null,
+            "roiPerUnit": null,
+            "roiKelly": null,
+            "totalPnl": 0,
+            "avgClv": null,
+            "ci95": null
+          },
+          "over55": {
+            "n": 0,
+            "hitRate": null,
+            "avgEdge": null,
+            "roiPerUnit": null,
+            "roiKelly": null,
+            "totalPnl": 0,
+            "avgClv": null,
+            "ci95": null
+          },
+          "under55": {
+            "n": 0,
+            "hitRate": null,
+            "avgEdge": null,
+            "roiPerUnit": null,
+            "roiKelly": null,
+            "totalPnl": 0,
+            "avgClv": null,
+            "ci95": null
+          },
+          "over65": {
+            "n": 0,
+            "hitRate": null,
+            "avgEdge": null,
+            "roiPerUnit": null,
+            "roiKelly": null,
+            "totalPnl": 0,
+            "avgClv": null,
+            "ci95": null
+          },
+          "under65": {
+            "n": 0,
+            "hitRate": null,
+            "avgEdge": null,
+            "roiPerUnit": null,
+            "roiKelly": null,
+            "totalPnl": 0,
+            "avgClv": null,
+            "ci95": null
+          },
+          "goesSevenYes": {
+            "n": 0,
+            "hitRate": null,
+            "avgEdge": null,
+            "roiPerUnit": null,
+            "roiKelly": null,
+            "totalPnl": 0,
+            "avgClv": null,
+            "ci95": null
+          },
+          "goesSevenNo": {
+            "n": 0,
+            "hitRate": null,
+            "avgEdge": null,
+            "roiPerUnit": null,
+            "roiKelly": null,
+            "totalPnl": 0,
+            "avgClv": null,
+            "ci95": null
+          }
+        },
+        "accuracy": {
+          "perGame": null,
+          "series": 0.6666666666666666,
+          "perGameSampleSize": 0,
+          "seriesSampleSize": 15
+        },
+        "redFlags": [],
+        "config": {
+          "minEdgePct": 0.03,
+          "bankroll": 10000,
+          "kellyFraction": 0.25,
+          "trials": 10000,
+          "seed": 42,
+          "bootstrapResamples": 1000
+        }
+      },
+      {
+        "trainStart": "2017-04-12T23:00:00Z",
+        "trainEnd": "2023-03-20T23:00:00.000Z",
+        "testEnd": "2024-03-14T23:00:00.000Z",
+        "trainSize": 89,
+        "testSize": 15,
+        "overall": {
+          "n": 0,
+          "hitRate": null,
+          "avgEdge": null,
+          "roiPerUnit": null,
+          "roiKelly": null,
+          "totalPnl": 0,
+          "avgClv": null,
+          "ci95": null
+        },
+        "byMarket": {
+          "seriesWinner": {
+            "n": 0,
+            "hitRate": null,
+            "avgEdge": null,
+            "roiPerUnit": null,
+            "roiKelly": null,
+            "totalPnl": 0,
+            "avgClv": null,
+            "ci95": null
+          },
+          "over55": {
+            "n": 0,
+            "hitRate": null,
+            "avgEdge": null,
+            "roiPerUnit": null,
+            "roiKelly": null,
+            "totalPnl": 0,
+            "avgClv": null,
+            "ci95": null
+          },
+          "under55": {
+            "n": 0,
+            "hitRate": null,
+            "avgEdge": null,
+            "roiPerUnit": null,
+            "roiKelly": null,
+            "totalPnl": 0,
+            "avgClv": null,
+            "ci95": null
+          },
+          "over65": {
+            "n": 0,
+            "hitRate": null,
+            "avgEdge": null,
+            "roiPerUnit": null,
+            "roiKelly": null,
+            "totalPnl": 0,
+            "avgClv": null,
+            "ci95": null
+          },
+          "under65": {
+            "n": 0,
+            "hitRate": null,
+            "avgEdge": null,
+            "roiPerUnit": null,
+            "roiKelly": null,
+            "totalPnl": 0,
+            "avgClv": null,
+            "ci95": null
+          },
+          "goesSevenYes": {
+            "n": 0,
+            "hitRate": null,
+            "avgEdge": null,
+            "roiPerUnit": null,
+            "roiKelly": null,
+            "totalPnl": 0,
+            "avgClv": null,
+            "ci95": null
+          },
+          "goesSevenNo": {
+            "n": 0,
+            "hitRate": null,
+            "avgEdge": null,
+            "roiPerUnit": null,
+            "roiKelly": null,
+            "totalPnl": 0,
+            "avgClv": null,
+            "ci95": null
+          }
+        },
+        "accuracy": {
+          "perGame": null,
+          "series": 0.4666666666666667,
+          "perGameSampleSize": 0,
+          "seriesSampleSize": 15
+        },
+        "redFlags": [],
+        "config": {
+          "minEdgePct": 0.03,
+          "bankroll": 10000,
+          "kellyFraction": 0.25,
+          "trials": 10000,
+          "seed": 42,
+          "bootstrapResamples": 1000
+        }
+      }
+    ],
+    "consistency": {},
+    "overall": {
+      "windowCount": 5,
+      "totalBets": 0,
+      "hitRate": null,
+      "roiKelly": null,
+      "totalPnl": 0
+    }
+  },
+  "droppedCount": 16
+}

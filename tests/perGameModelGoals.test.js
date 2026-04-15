@@ -155,7 +155,7 @@ test('buildPerGameModelGoals: produces valid prediction for mid-season', () => {
   });
 
   assert.ok(out.homeWinProb > 0.05 && out.homeWinProb < 0.95);
-  assert.equal(out.modelVariant, 'goals');
+  assert.equal(out.modelVariant, 'goals-v2');
   assert.ok(out.expectedTotalGoals > 3.0 && out.expectedTotalGoals < 9.0,
     `expected 3-9 goals, got ${out.expectedTotalGoals}`);
   assert.ok(out.homeLambda > 0);
