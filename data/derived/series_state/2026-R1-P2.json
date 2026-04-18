@@ -56,5 +56,17 @@
       "gsax_per_60": -0.10220991012447199
     }
   },
-  "bookPrices": null
+  "bookPrices": null,
+  "seriesWinner": {
+    "EDM": 0.5886,
+    "ANA": 0.4114
+  },
+  "totalGames": {
+    "4": 0.12,
+    "5": 0.24,
+    "6": 0.32,
+    "7": 0.32
+  },
+  "over55": 0.58,
+  "goesToSeven": 0.32
 }
