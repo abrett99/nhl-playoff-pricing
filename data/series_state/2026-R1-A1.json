@@ -66,8 +66,8 @@
     "goesSevenNo": null
   },
   "seriesWinner": {
-    "BUF": 0.5256,
-    "BOS": 0.47440000000000004
+    "BUF": 0.5098,
+    "BOS": 0.4902
   },
   "totalGames": {
     "4": 0.12,
@@ -87,9 +87,13 @@
       "BOS": 0.394
     },
     "ensemble": {
-      "BUF": 0.5256,
-      "BOS": 0.47440000000000004
+      "BUF": 0.5098,
+      "BOS": 0.4902
+    },
+    "tandem": {
+      "BUF": 0.464,
+      "BOS": 0.536
     }
   },
-  "modelAgreement": 0.134
+  "modelAgreement": 0.14199999999999996
 }

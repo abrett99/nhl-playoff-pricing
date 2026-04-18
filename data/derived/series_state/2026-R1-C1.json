@@ -69,8 +69,8 @@
     "goesSevenNo": -300
   },
   "seriesWinner": {
-    "COL": 0.8022,
-    "LAK": 0.1978
+    "COL": 0.74949,
+    "LAK": 0.25051
   },
   "totalGames": {
     "4": 0.12,
@@ -90,9 +90,13 @@
       "LAK": 0.124
     },
     "ensemble": {
-      "COL": 0.8022,
-      "LAK": 0.1978
+      "COL": 0.74949,
+      "LAK": 0.25051
+    },
+    "tandem": {
+      "COL": 0.6183,
+      "LAK": 0.38170000000000004
     }
   },
-  "modelAgreement": 0.123
+  "modelAgreement": 0.25770000000000004
 }

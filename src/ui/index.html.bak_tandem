@@ -231,42 +231,6 @@
 // ============================================================================
 
 const VENUE_SEQUENCE = ['A','A','B','B','A','B','A'];
-const GOALIE_NAME_LOOKUP = {
-  "8475311": "Darcy Kuemper",
-  "8475717": "Lukas Dostal",
-  "8475790": "James Reimer",
-  "8475883": "Frederik Andersen",
-  "8476341": "Anton Forsberg",
-  "8476347": "Jonas Johansson",
-  "8476883": "Andrei Vasilevskiy",
-  "8476905": "Ville Husso",
-  "8476999": "Linus Ullmark",
-  "8477293": "Tristan Jarry",
-  "8477465": "Scott Wedgewood",
-  "8477970": "Vitek Vanecek",
-  "8477979": "Stuart Skinner",
-  "8478024": "Casey DeSmith",
-  "8478075": "Karel Vejmelka",
-  "8478233": "Connor Ingram",
-  "8478406": "Mackenzie Blackwood",
-  "8478492": "Adin Hill",
-  "8479193": "Dan Vladar",
-  "8479360": "Samuel Ersson",
-  "8479406": "Filip Gustavsson",
-  "8479882": "Carter Hart",
-  "8479973": "Jake Oettinger",
-  "8479979": "Joonas Korpisalo",
-  "8480045": "Ukko-Pekka Luukkonen",
-  "8480046": "Arturs Silovs",
-  "8480280": "Jeremy Swayman",
-  "8480888": "Brandon Bussi",
-  "8482245": "Samuel Montembeault",
-  "8483432": "Jesper Wallstedt",
-  "8483434": "Jakub Dobes",
-  "unknown": "Levi",
-  "8477293-EDM": "Tristan Jarry"
-};
-
 const PLAYOFF_SCORING_DAMPENER = 0.956;
 
 function seededRng(seed) {
@@ -831,7 +795,7 @@ function renderSeriesCard(series) {
     const p = mc.totalGames.pmf[n] || 0;
     return '<div class="pmf-bar-row"><span>' + n + '</span><div class="pmf-bar" style="width: ' + (p * 100) + '%"></div><span style="color: var(--text-faint)">' + (p * 100).toFixed(0) + '%</span></div>';
   }).join('');
-  return '<div class="series-card"><div class="matchup">' + series.teamA + ' <span style="color: var(--text-faint); font-size: 14px;">vs</span> ' + series.teamB + ' <span class="badge-round">R' + series.round + '</span></div><div class="state">' + stateStr + '</div><div class="next-game">' + series.currentStarters[series.teamA].name + ' vs ' + series.currentStarters[series.teamB].name + '</div><div class="mkt-tabs">' + tabBar + '</div><div class="active-market"><div class="active-market-header"><div><div class="active-market-title">' + activeMarket.label + '</div><div style="font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;margin-top:2px;">80% CI: ' + ci80 + '</div></div><div style="text-align:right;"><div style="color:' + edgeColor + ';font-size:18px;font-weight:700;font-family:ui-monospace,monospace;">' + edgeDisplay + '</div><div style="font-size:9px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;">Edge</div></div></div><div class="hist-container">' + histogram + '</div><div class="stat-grid"><div class="stat-cell"><div class="stat-label">Model Fair</div><div class="stat-val" style="color:#4ecdc4;">' + fmtAmerican(modelFairAmer) + '</div><div class="stat-sub">' + modelProbPct + '%</div></div><div class="stat-cell"><div class="stat-label">Market</div><div class="stat-val" style="color:#ff9f43;">' + fmtAmerican(activeMarket.book) + '</div><div class="stat-sub">' + marketProbPct + '%</div></div></div>' + (betBtn ? '<div style="margin-top:10px;text-align:center;">' + betBtn + '</div>' : '') + '</div><div style="margin-top: 16px; font-size: 10px; letter-spacing: 1px; color: var(--text-dim); text-transform: uppercase; margin-bottom: 6px;">Total games PMF</div>' + pmfHtml + '<div style="color: var(--text-dim); font-size: 11px; margin-top: 6px;">Expected: ' + mc.totalGames.expected.toFixed(2) + '</div><div class="what-if"><div class="what-if-title">What if…</div><div class="toggle"><span>' + series.teamA + ' goalie</span><select data-series="' + series.seriesId + '" data-team="' + series.teamA + '" class="goalie-override">' + goalies.map(([id, g]) => '<option value="' + id + '" ' + (id == hStarterId ? 'selected' : '') + '>' + (series.currentStarters[series.teamA].playerId == id ? series.currentStarters[series.teamA].name : (series.backupGoalies && series.backupGoalies[series.teamA] && series.backupGoalies[series.teamA].playerId == id ? series.backupGoalies[series.teamA].name : (series.backupGoalies && series.backupGoalies[series.teamB] && series.backupGoalies[series.teamB].playerId == id ? series.backupGoalies[series.teamB].name : (series.currentStarters[series.teamB].playerId == id ? series.currentStarters[series.teamB].name : (GOALIE_NAME_LOOKUP[id] || ('Goalie ' + id)))))) + '</option>').join('') + '</select></div><div class="toggle"><span>' + series.teamB + ' goalie</span><select data-series="' + series.seriesId + '" data-team="' + series.teamB + '" class="goalie-override">' + goalies.map(([id, g]) => '<option value="' + id + '" ' + (id == aStarterId ? 'selected' : '') + '>' + (series.currentStarters[series.teamB].playerId == id ? series.currentStarters[series.teamB].name : (series.backupGoalies && series.backupGoalies[series.teamB] && series.backupGoalies[series.teamB].playerId == id ? series.backupGoalies[series.teamB].name : (series.backupGoalies && series.backupGoalies[series.teamA] && series.backupGoalies[series.teamA].playerId == id ? series.backupGoalies[series.teamA].name : (series.currentStarters[series.teamA].playerId == id ? series.currentStarters[series.teamA].name : (GOALIE_NAME_LOOKUP[id] || ('Goalie ' + id)))))) + '</option>').join('') + '</select></div><button class="btn-save-scenario" data-series="' + series.seriesId + '">💾 Save this scenario</button></div></div>';
+  return '<div class="series-card"><div class="matchup">' + series.teamA + ' <span style="color: var(--text-faint); font-size: 14px;">vs</span> ' + series.teamB + ' <span class="badge-round">R' + series.round + '</span></div><div class="state">' + stateStr + '</div><div class="next-game">' + series.currentStarters[series.teamA].name + ' vs ' + series.currentStarters[series.teamB].name + '</div><div class="mkt-tabs">' + tabBar + '</div><div class="active-market"><div class="active-market-header"><div><div class="active-market-title">' + activeMarket.label + '</div><div style="font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;margin-top:2px;">80% CI: ' + ci80 + '</div></div><div style="text-align:right;"><div style="color:' + edgeColor + ';font-size:18px;font-weight:700;font-family:ui-monospace,monospace;">' + edgeDisplay + '</div><div style="font-size:9px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;">Edge</div></div></div><div class="hist-container">' + histogram + '</div><div class="stat-grid"><div class="stat-cell"><div class="stat-label">Model Fair</div><div class="stat-val" style="color:#4ecdc4;">' + fmtAmerican(modelFairAmer) + '</div><div class="stat-sub">' + modelProbPct + '%</div></div><div class="stat-cell"><div class="stat-label">Market</div><div class="stat-val" style="color:#ff9f43;">' + fmtAmerican(activeMarket.book) + '</div><div class="stat-sub">' + marketProbPct + '%</div></div></div>' + (betBtn ? '<div style="margin-top:10px;text-align:center;">' + betBtn + '</div>' : '') + '</div><div style="margin-top: 16px; font-size: 10px; letter-spacing: 1px; color: var(--text-dim); text-transform: uppercase; margin-bottom: 6px;">Total games PMF</div>' + pmfHtml + '<div style="color: var(--text-dim); font-size: 11px; margin-top: 6px;">Expected: ' + mc.totalGames.expected.toFixed(2) + '</div><div class="what-if"><div class="what-if-title">What if…</div><div class="toggle"><span>' + series.teamA + ' goalie</span><select data-series="' + series.seriesId + '" data-team="' + series.teamA + '" class="goalie-override">' + goalies.map(([id, g]) => '<option value="' + id + '" ' + (id == hStarterId ? 'selected' : '') + '>' + (series.currentStarters[series.teamA].playerId == id ? series.currentStarters[series.teamA].name : 'Goalie ' + id) + '</option>').join('') + '</select></div><div class="toggle"><span>' + series.teamB + ' goalie</span><select data-series="' + series.seriesId + '" data-team="' + series.teamB + '" class="goalie-override">' + goalies.map(([id, g]) => '<option value="' + id + '" ' + (id == aStarterId ? 'selected' : '') + '>' + (series.currentStarters[series.teamB].playerId == id ? series.currentStarters[series.teamB].name : 'Goalie ' + id) + '</option>').join('') + '</select></div><button class="btn-save-scenario" data-series="' + series.seriesId + '">💾 Save this scenario</button></div></div>';
 }
 
 function render() {
@@ -839,7 +803,7 @@ function render() {
   const data = currentData();
 
   if (currentTab === 'series') {
-    view.innerHTML = '<div class="model-toggle-bar"><span class="model-toggle-label">MODEL:</span><select id="modelSelect" class="model-select"><option value="ensemble">Ensemble (60/40)</option><option value="xg">xG-v3</option><option value="goals">Goals-v2</option><option value="tandem">Tandem-v1</option></select><span class="model-toggle-hint">40% xG + 30% Goals + 30% Tandem</span></div><div class="series-grid">' + data.series.map(renderSeriesCard).join('') + '</div>' ||
+    view.innerHTML = '<div class="model-toggle-bar"><span class="model-toggle-label">MODEL:</span><select id="modelSelect" class="model-select"><option value="ensemble">Ensemble (60/40)</option><option value="xg">xG-v3</option><option value="goals">Goals-v2</option></select><span class="model-toggle-hint">60% xG + 40% goals</span></div><div class="series-grid">' + data.series.map(renderSeriesCard).join('') + '</div>' ||
       '<div class="loading">No active series.</div>';
 
     // Wire goalie overrides
