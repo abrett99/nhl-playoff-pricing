@@ -1,0 +1,60 @@
+{
+  "seriesId": "2026-R1-M1",
+  "teamA": "CAR",
+  "teamB": "OTT",
+  "round": 1,
+  "winsA": 0,
+  "winsB": 0,
+  "status": "pre",
+  "game1Start": "2026-04-18T15:00:00-04:00",
+  "gamesPlayed": [],
+  "currentStarters": {
+    "CAR": {
+      "playerId": "8483548",
+      "name": "Brandon Bussi"
+    },
+    "OTT": {
+      "playerId": "8476999",
+      "name": "Linus Ullmark"
+    }
+  },
+  "backupGoalies": {
+    "CAR": {
+      "playerId": "8475883",
+      "name": "Frederik Andersen"
+    },
+    "OTT": {
+      "playerId": "8476341",
+      "name": "Anton Forsberg"
+    }
+  },
+  "teamFeatures": {
+    "CAR": {
+      "xgf_per_60": 2.98,
+      "xga_per_60": 2.31,
+      "pp_pct": 8.5,
+      "pk_pct": 88.3
+    },
+    "OTT": {
+      "xgf_per_60": 2.66,
+      "xga_per_60": 2.13,
+      "pp_pct": 8.3,
+      "pk_pct": 86.8
+    }
+  },
+  "goalieFeatures": {
+    "8475883": {
+      "gsax_per_60": -0.12766204825113833
+    },
+    "8476341": {
+      "gsax_per_60": 0.3653266528359496
+    },
+    "8476999": {
+      "gsax_per_60": -0.17292119786611504
+    },
+    "8483548": {
+      "gsax_per_60": 0.08819145837973034
+    }
+  },
+  "bookPrices": null
+}

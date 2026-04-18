@@ -1,0 +1,9 @@
+{
+  "commit": "live",
+  "builtAt": "2026-04-18T03:49:09.598Z",
+  "model": "xg-v3 + goals-v2",
+  "backtest": {
+    "accuracy": 0.595,
+    "brier": 0.2377
+  }
+}

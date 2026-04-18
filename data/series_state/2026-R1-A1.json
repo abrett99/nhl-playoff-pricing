@@ -1,0 +1,57 @@
+{
+  "seriesId": "2026-R1-A1",
+  "teamA": "BUF",
+  "teamB": "BOS",
+  "round": 1,
+  "winsA": 0,
+  "winsB": 0,
+  "status": "pre",
+  "game1Start": "2026-04-19T19:30:00-04:00",
+  "gamesPlayed": [],
+  "currentStarters": {
+    "BUF": {
+      "playerId": "8480045",
+      "name": "Ukko-Pekka Luukkonen"
+    },
+    "BOS": {
+      "playerId": "8480280",
+      "name": "Jeremy Swayman"
+    }
+  },
+  "backupGoalies": {
+    "BUF": {
+      "playerId": "unknown",
+      "name": "Levi"
+    },
+    "BOS": {
+      "playerId": "8476999",
+      "name": "Linus Ullmark"
+    }
+  },
+  "teamFeatures": {
+    "BUF": {
+      "xgf_per_60": 2.56,
+      "xga_per_60": 2.55,
+      "pp_pct": 7.3,
+      "pk_pct": 90.3
+    },
+    "BOS": {
+      "xgf_per_60": 2.38,
+      "xga_per_60": 2.67,
+      "pp_pct": 8.2,
+      "pk_pct": 87.6
+    }
+  },
+  "goalieFeatures": {
+    "8476999": {
+      "gsax_per_60": -0.17292119786611504
+    },
+    "8480045": {
+      "gsax_per_60": 0.15233550518491348
+    },
+    "8480280": {
+      "gsax_per_60": 0.6704279831701365
+    }
+  },
+  "bookPrices": null
+}

@@ -1,0 +1,60 @@
+{
+  "seriesId": "2026-R1-P2",
+  "teamA": "EDM",
+  "teamB": "ANA",
+  "round": 1,
+  "winsA": 0,
+  "winsB": 0,
+  "status": "pre",
+  "game1Start": "2026-04-20T22:00:00-04:00",
+  "gamesPlayed": [],
+  "currentStarters": {
+    "EDM": {
+      "playerId": "8478971",
+      "name": "Connor Ingram"
+    },
+    "ANA": {
+      "playerId": "8480843",
+      "name": "Lukas Dostal"
+    }
+  },
+  "backupGoalies": {
+    "EDM": {
+      "playerId": "8479973",
+      "name": "Stuart Skinner"
+    },
+    "ANA": {
+      "playerId": "8476434",
+      "name": "John Gibson"
+    }
+  },
+  "teamFeatures": {
+    "EDM": {
+      "xgf_per_60": 2.64,
+      "xga_per_60": 2.48,
+      "pp_pct": 11.3,
+      "pk_pct": 86.5
+    },
+    "ANA": {
+      "xgf_per_60": 2.79,
+      "xga_per_60": 2.59,
+      "pp_pct": 6.3,
+      "pk_pct": 85.8
+    }
+  },
+  "goalieFeatures": {
+    "8476434": {
+      "gsax_per_60": 0.20014010061771645
+    },
+    "8478971": {
+      "gsax_per_60": -0.1366900867396362
+    },
+    "8479973": {
+      "gsax_per_60": 0.1582492263505996
+    },
+    "8480843": {
+      "gsax_per_60": -0.10220991012447199
+    }
+  },
+  "bookPrices": null
+}

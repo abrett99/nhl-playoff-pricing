@@ -1,0 +1,60 @@
+{
+  "seriesId": "2026-R1-A2",
+  "teamA": "TBL",
+  "teamB": "MTL",
+  "round": 1,
+  "winsA": 0,
+  "winsB": 0,
+  "status": "pre",
+  "game1Start": "2026-04-19T17:45:00-04:00",
+  "gamesPlayed": [],
+  "currentStarters": {
+    "TBL": {
+      "playerId": "8476883",
+      "name": "Andrei Vasilevskiy"
+    },
+    "MTL": {
+      "playerId": "8482487",
+      "name": "Jakub Dobes"
+    }
+  },
+  "backupGoalies": {
+    "TBL": {
+      "playerId": "8477992",
+      "name": "Jonas Johansson"
+    },
+    "MTL": {
+      "playerId": "8480051",
+      "name": "Cayden Primeau"
+    }
+  },
+  "teamFeatures": {
+    "TBL": {
+      "xgf_per_60": 2.66,
+      "xga_per_60": 2.28,
+      "pp_pct": 7.1,
+      "pk_pct": 89.8
+    },
+    "MTL": {
+      "xgf_per_60": 2.41,
+      "xga_per_60": 2.63,
+      "pp_pct": 8.1,
+      "pk_pct": 88
+    }
+  },
+  "goalieFeatures": {
+    "8476883": {
+      "gsax_per_60": 0.12752751548685873
+    },
+    "8477992": {
+      "gsax_per_60": -0.2972620599739245
+    },
+    "8480051": {
+      "gsax_per_60": -3.079155672823219
+    },
+    "8482487": {
+      "gsax_per_60": 0.483058210251955
+    }
+  },
+  "bookPrices": null
+}

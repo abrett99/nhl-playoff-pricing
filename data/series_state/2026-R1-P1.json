@@ -1,0 +1,60 @@
+{
+  "seriesId": "2026-R1-P1",
+  "teamA": "VGK",
+  "teamB": "UTA",
+  "round": 1,
+  "winsA": 0,
+  "winsB": 0,
+  "status": "pre",
+  "game1Start": "2026-04-19T22:00:00-04:00",
+  "gamesPlayed": [],
+  "currentStarters": {
+    "VGK": {
+      "playerId": "8479394",
+      "name": "Carter Hart"
+    },
+    "UTA": {
+      "playerId": "8478872",
+      "name": "Karel Vejmelka"
+    }
+  },
+  "backupGoalies": {
+    "VGK": {
+      "playerId": "8478499",
+      "name": "Adin Hill"
+    },
+    "UTA": {
+      "playerId": "8478971",
+      "name": "Connor Ingram"
+    }
+  },
+  "teamFeatures": {
+    "VGK": {
+      "xgf_per_60": 2.52,
+      "xga_per_60": 2.11,
+      "pp_pct": 9.3,
+      "pk_pct": 88.9
+    },
+    "UTA": {
+      "xgf_per_60": 2.63,
+      "xga_per_60": 2.4,
+      "pp_pct": 6.7,
+      "pk_pct": 88.8
+    }
+  },
+  "goalieFeatures": {
+    "8478499": {
+      "gsax_per_60": -0.7026357406431207
+    },
+    "8478872": {
+      "gsax_per_60": 0.06250821611673461
+    },
+    "8478971": {
+      "gsax_per_60": -0.1366900867396362
+    },
+    "8479394": {
+      "gsax_per_60": -0.6520637290532973
+    }
+  },
+  "bookPrices": null
+}
