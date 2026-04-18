@@ -79,5 +79,20 @@
     "7": 0.32
   },
   "over55": 0.58,
-  "goesToSeven": 0.32
+  "goesToSeven": 0.32,
+  "modelPredictions": {
+    "xg": {
+      "CAR": 0.553,
+      "OTT": 0.447
+    },
+    "goals": {
+      "CAR": 0.61,
+      "OTT": 0.39
+    },
+    "ensemble": {
+      "CAR": 0.5758000000000001,
+      "OTT": 0.4242
+    }
+  },
+  "modelAgreement": 0.05699999999999994
 }

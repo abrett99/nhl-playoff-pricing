@@ -79,5 +79,20 @@
     "7": 0.32
   },
   "over55": 0.58,
-  "goesToSeven": 0.32
+  "goesToSeven": 0.32,
+  "modelPredictions": {
+    "xg": {
+      "DAL": 0.525,
+      "MIN": 0.475
+    },
+    "goals": {
+      "DAL": 0.595,
+      "MIN": 0.405
+    },
+    "ensemble": {
+      "DAL": 0.5529999999999999,
+      "MIN": 0.447
+    }
+  },
+  "modelAgreement": 0.06999999999999995
 }

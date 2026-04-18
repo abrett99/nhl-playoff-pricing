@@ -56,43 +56,5 @@
       "gsax_per_60": -0.6520637290532973
     }
   },
-  "bookPrices": {
-    "seriesWinner": {
-      "VGK": -160,
-      "UTA": 142
-    },
-    "over55": -180,
-    "under55": 165,
-    "over65": 176,
-    "under65": -220,
-    "goesSevenYes": null,
-    "goesSevenNo": null
-  },
-  "seriesWinner": {
-    "VGK": 0.5376,
-    "UTA": 0.4624
-  },
-  "totalGames": {
-    "4": 0.12,
-    "5": 0.24,
-    "6": 0.32,
-    "7": 0.32
-  },
-  "over55": 0.58,
-  "goesToSeven": 0.32,
-  "modelPredictions": {
-    "xg": {
-      "VGK": 0.582,
-      "UTA": 0.418
-    },
-    "goals": {
-      "VGK": 0.471,
-      "UTA": 0.529
-    },
-    "ensemble": {
-      "VGK": 0.5376,
-      "UTA": 0.4624
-    }
-  },
-  "modelAgreement": 0.11099999999999999
+  "bookPrices": null
 }

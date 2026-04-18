@@ -76,5 +76,20 @@
     "7": 0.32
   },
   "over55": 0.58,
-  "goesToSeven": 0.32
+  "goesToSeven": 0.32,
+  "modelPredictions": {
+    "xg": {
+      "BUF": 0.472,
+      "BOS": 0.528
+    },
+    "goals": {
+      "BUF": 0.606,
+      "BOS": 0.394
+    },
+    "ensemble": {
+      "BUF": 0.5256,
+      "BOS": 0.47440000000000004
+    }
+  },
+  "modelAgreement": 0.134
 }

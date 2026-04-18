@@ -79,5 +79,20 @@
     "7": 0.32
   },
   "over55": 0.58,
-  "goesToSeven": 0.32
+  "goesToSeven": 0.32,
+  "modelPredictions": {
+    "xg": {
+      "VGK": 0.582,
+      "UTA": 0.418
+    },
+    "goals": {
+      "VGK": 0.471,
+      "UTA": 0.529
+    },
+    "ensemble": {
+      "VGK": 0.5376,
+      "UTA": 0.4624
+    }
+  },
+  "modelAgreement": 0.11099999999999999
 }

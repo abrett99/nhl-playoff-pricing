@@ -56,43 +56,5 @@
       "gsax_per_60": -0.5596831735017838
     }
   },
-  "bookPrices": {
-    "seriesWinner": {
-      "PIT": -140,
-      "PHI": 116
-    },
-    "over55": -190,
-    "under55": 165,
-    "over65": 172,
-    "under65": -205,
-    "goesSevenYes": null,
-    "goesSevenNo": null
-  },
-  "seriesWinner": {
-    "PIT": 0.5680000000000001,
-    "PHI": 0.43199999999999994
-  },
-  "totalGames": {
-    "4": 0.12,
-    "5": 0.24,
-    "6": 0.32,
-    "7": 0.32
-  },
-  "over55": 0.58,
-  "goesToSeven": 0.32,
-  "modelPredictions": {
-    "xg": {
-      "PIT": 0.514,
-      "PHI": 0.486
-    },
-    "goals": {
-      "PIT": 0.649,
-      "PHI": 0.351
-    },
-    "ensemble": {
-      "PIT": 0.5680000000000001,
-      "PHI": 0.43199999999999994
-    }
-  },
-  "modelAgreement": 0.135
+  "bookPrices": null
 }

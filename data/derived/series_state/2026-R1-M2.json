@@ -79,5 +79,20 @@
     "7": 0.32
   },
   "over55": 0.58,
-  "goesToSeven": 0.32
+  "goesToSeven": 0.32,
+  "modelPredictions": {
+    "xg": {
+      "PIT": 0.514,
+      "PHI": 0.486
+    },
+    "goals": {
+      "PIT": 0.649,
+      "PHI": 0.351
+    },
+    "ensemble": {
+      "PIT": 0.5680000000000001,
+      "PHI": 0.43199999999999994
+    }
+  },
+  "modelAgreement": 0.135
 }

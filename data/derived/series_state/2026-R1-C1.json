@@ -79,5 +79,20 @@
     "7": 0.32
   },
   "over55": 0.58,
-  "goesToSeven": 0.32
+  "goesToSeven": 0.32,
+  "modelPredictions": {
+    "xg": {
+      "COL": 0.753,
+      "LAK": 0.247
+    },
+    "goals": {
+      "COL": 0.876,
+      "LAK": 0.124
+    },
+    "ensemble": {
+      "COL": 0.8022,
+      "LAK": 0.1978
+    }
+  },
+  "modelAgreement": 0.123
 }

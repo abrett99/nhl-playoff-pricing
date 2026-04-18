@@ -79,5 +79,20 @@
     "7": 0.32
   },
   "over55": 0.58,
-  "goesToSeven": 0.32
+  "goesToSeven": 0.32,
+  "modelPredictions": {
+    "xg": {
+      "EDM": 0.537,
+      "ANA": 0.463
+    },
+    "goals": {
+      "EDM": 0.666,
+      "ANA": 0.334
+    },
+    "ensemble": {
+      "EDM": 0.5886,
+      "ANA": 0.4114
+    }
+  },
+  "modelAgreement": 0.129
 }

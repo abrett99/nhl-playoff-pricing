@@ -79,5 +79,20 @@
     "7": 0.32
   },
   "over55": 0.58,
-  "goesToSeven": 0.32
+  "goesToSeven": 0.32,
+  "modelPredictions": {
+    "xg": {
+      "TBL": 0.648,
+      "MTL": 0.352
+    },
+    "goals": {
+      "TBL": 0.626,
+      "MTL": 0.374
+    },
+    "ensemble": {
+      "TBL": 0.6392,
+      "MTL": 0.3608
+    }
+  },
+  "modelAgreement": 0.02200000000000002
 }
