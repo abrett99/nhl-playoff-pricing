@@ -20,12 +20,12 @@
   },
   "backupGoalies": {
     "EDM": {
-      "playerId": "8479973",
-      "name": "Stuart Skinner"
+      "playerId": "8477293",
+      "name": "Tristan Jarry"
     },
     "ANA": {
-      "playerId": "8476434",
-      "name": "John Gibson"
+      "playerId": "8476905",
+      "name": "Ville Husso"
     }
   },
   "teamFeatures": {
@@ -46,9 +46,6 @@
     "8475717": {
       "gsax_per_60": -0.102
     },
-    "8476434": {
-      "gsax_per_60": 0.20014010061771645
-    },
     "8476905": {
       "gsax_per_60": -0.13
     },
@@ -60,9 +57,6 @@
     },
     "8478971": {
       "gsax_per_60": -0.1366900867396362
-    },
-    "8479973": {
-      "gsax_per_60": 0.1582492263505996
     },
     "8480843": {
       "gsax_per_60": -0.10220991012447199
