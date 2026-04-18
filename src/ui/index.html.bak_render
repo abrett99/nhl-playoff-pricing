@@ -1132,15 +1132,7 @@ document.addEventListener('click', function(e) {
   e.preventDefault();
   window.activeModel = btn.dataset.model;
   document.querySelectorAll('.model-btn').forEach(b => b.classList.toggle('active', b === btn));
-  // Dispatch custom event - module-scope code listens and calls render()
-  window.dispatchEvent(new CustomEvent('modelChanged', { detail: { model: btn.dataset.model } }));
-});
-
-// Expose render to window so click handlers can trigger re-render
-window.render = render;
-// Listen for model changes from delegated click handler
-window.addEventListener('modelChanged', () => {
-  if (typeof render === 'function') render();
+  render();
 });
 </script>
 </body>
