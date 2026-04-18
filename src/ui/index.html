@@ -41,7 +41,7 @@
              env(safe-area-inset-bottom) env(safe-area-inset-left);
     min-height: 100vh;
   }
-  .wrap { max-width: 520px; margin: 0 auto; padding: 20px 16px 120px; }
+  .wrap { max-width: 1600px; margin: 0 auto; padding: 20px 24px 120px; } .series-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(440px, 1fr)); gap: 20px; } @media (max-width: 600px) { .wrap { max-width: 520px; padding: 20px 16px 120px; } .series-grid { grid-template-columns: 1fr; } }
   header { padding-bottom: 20px; border-bottom: 1px solid var(--border); margin-bottom: 24px; }
   header h1 {
     font-family: 'Instrument Serif', serif;
@@ -685,7 +685,7 @@ function render() {
   const data = currentData();
 
   if (currentTab === 'series') {
-    view.innerHTML = data.series.map(renderSeriesCard).join('') ||
+    view.innerHTML = '<div class="series-grid">' + data.series.map(renderSeriesCard).join('') + '</div>' ||
       '<div class="loading">No active series.</div>';
 
     // Wire goalie overrides
