@@ -58,15 +58,6 @@ jobs:
           if [ -f data/derived/seeding_projection.json ]; then
             cp data/derived/seeding_projection.json _site/data/ 2>/dev/null || true
           fi
-          if [ -f data/derived/backtest_results_real.json ]; then
-            cp data/derived/backtest_results_real.json _site/data/ 2>/dev/null || true
-          fi
-          if [ -f data/derived/backtest_calibration.json ]; then
-            cp data/derived/backtest_calibration.json _site/data/ 2>/dev/null || true
-          fi
-          if [ -f data/derived/backtest_xg_calibration.json ]; then
-            cp data/derived/backtest_xg_calibration.json _site/data/ 2>/dev/null || true
-          fi
           if [ -f data/manifest/store.json ]; then
             cp data/manifest/store.json _site/data/ 2>/dev/null || true
           fi
