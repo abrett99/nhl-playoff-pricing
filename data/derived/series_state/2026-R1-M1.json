@@ -56,7 +56,16 @@
       "gsax_per_60": 0.08819145837973034
     }
   },
-  "bookPrices": null,
+  "bookPrices": {
+    "seriesWinner": {
+      "CAR": -180,
+      "OTT": 150
+    },
+    "over55": -110,
+    "under55": -110,
+    "goesSevenYes": 240,
+    "goesSevenNo": -320
+  },
   "seriesWinner": {
     "CAR": 0.5758000000000001,
     "OTT": 0.4242

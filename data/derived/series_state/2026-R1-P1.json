@@ -56,7 +56,16 @@
       "gsax_per_60": -0.6520637290532973
     }
   },
-  "bookPrices": null,
+  "bookPrices": {
+    "seriesWinner": {
+      "VGK": -160,
+      "UTA": 140
+    },
+    "over55": -110,
+    "under55": -110,
+    "goesSevenYes": 240,
+    "goesSevenNo": -320
+  },
   "seriesWinner": {
     "VGK": 0.5376,
     "UTA": 0.4624

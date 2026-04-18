@@ -56,7 +56,16 @@
       "gsax_per_60": 0.06371872562548735
     }
   },
-  "bookPrices": null,
+  "bookPrices": {
+    "seriesWinner": {
+      "DAL": -140,
+      "MIN": 120
+    },
+    "over55": -110,
+    "under55": -110,
+    "goesSevenYes": 240,
+    "goesSevenNo": -320
+  },
   "seriesWinner": {
     "DAL": 0.5529999999999999,
     "MIN": 0.447
