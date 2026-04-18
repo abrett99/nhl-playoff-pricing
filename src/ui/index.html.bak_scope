@@ -846,7 +846,7 @@ function impliedProb(americanOdds) {
   return americanOdds < 0 ? (-americanOdds) / (-americanOdds + 100) : 100 / (americanOdds + 100);
 }
 
-window.activeModel = 'ensemble';
+let activeModel = 'ensemble';
 const activeMarketTab = {};
 
 function renderSeriesCard(series) {
@@ -861,7 +861,7 @@ function renderSeriesCard(series) {
   const sw = bp.seriesWinner || {};
 
   // Global model selection (ensemble | xg | goals)
-  const modelKey = window.activeModel || 'ensemble';
+  const modelKey = activeModel || 'ensemble';
   const mp = series.modelPredictions || null;
   
   // Apply model override to series winner probs if modelPredictions available
@@ -988,7 +988,7 @@ function render() {
 
   document.querySelectorAll('.model-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      window.activeModel = btn.dataset.model;
+      activeModel = btn.dataset.model;
       document.querySelectorAll('.model-btn').forEach(b => b.classList.toggle('active', b === btn));
       render();
     });
@@ -1130,7 +1130,7 @@ document.addEventListener('click', function(e) {
   const btn = e.target.closest('.model-btn');
   if (!btn) return;
   e.preventDefault();
-  window.activeModel = btn.dataset.model;
+  activeModel = btn.dataset.model;
   document.querySelectorAll('.model-btn').forEach(b => b.classList.toggle('active', b === btn));
   render();
 });
