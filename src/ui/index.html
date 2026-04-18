@@ -767,7 +767,7 @@ function impliedProb(americanOdds) {
   return americanOdds < 0 ? (-americanOdds) / (-americanOdds + 100) : 100 / (americanOdds + 100);
 }
 
-let activeModel = 'ensemble';
+let activeModel = 'goals';
 const activeMarketTab = {};
 
 function renderSeriesCard(series) {
