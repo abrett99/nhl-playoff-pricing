@@ -40,7 +40,7 @@ function parseArgs() {
 }
 
 function playoffYear(series) {
-  return (series.seasonStartYear || 0) + 1;
+  return series.seasonStartYear || 0;
 }
 
 /**
