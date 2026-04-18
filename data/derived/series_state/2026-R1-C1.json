@@ -58,13 +58,15 @@
   },
   "bookPrices": {
     "seriesWinner": {
-      "COL": -400,
-      "LAK": 320
+      "COL": -530,
+      "LAK": 390
     },
-    "over55": -110,
-    "under55": -110,
-    "goesSevenYes": 240,
-    "goesSevenNo": -320
+    "over55": -142,
+    "under55": 116,
+    "over65": null,
+    "under65": null,
+    "goesSevenYes": 230,
+    "goesSevenNo": -300
   },
   "seriesWinner": {
     "COL": 0.8022,

@@ -58,13 +58,15 @@
   },
   "bookPrices": {
     "seriesWinner": {
-      "PIT": -150,
-      "PHI": 130
+      "PIT": -140,
+      "PHI": 116
     },
-    "over55": -110,
-    "under55": -110,
-    "goesSevenYes": 240,
-    "goesSevenNo": -320
+    "over55": -190,
+    "under55": 165,
+    "over65": 172,
+    "under65": -205,
+    "goesSevenYes": null,
+    "goesSevenNo": null
   },
   "seriesWinner": {
     "PIT": 0.5680000000000001,

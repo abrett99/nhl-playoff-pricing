@@ -59,12 +59,14 @@
   "bookPrices": {
     "seriesWinner": {
       "VGK": -160,
-      "UTA": 140
+      "UTA": 142
     },
-    "over55": -110,
-    "under55": -110,
-    "goesSevenYes": 240,
-    "goesSevenNo": -320
+    "over55": -180,
+    "under55": 165,
+    "over65": 176,
+    "under65": -220,
+    "goesSevenYes": null,
+    "goesSevenNo": null
   },
   "seriesWinner": {
     "VGK": 0.5376,

@@ -55,13 +55,15 @@
   },
   "bookPrices": {
     "seriesWinner": {
-      "BUF": -120,
-      "BOS": 100
+      "BUF": -175,
+      "BOS": 152
     },
-    "over55": -110,
-    "under55": -110,
-    "goesSevenYes": 240,
-    "goesSevenNo": -320
+    "over55": -180,
+    "under55": 165,
+    "over65": 176,
+    "under65": -210,
+    "goesSevenYes": null,
+    "goesSevenNo": null
   },
   "seriesWinner": {
     "BUF": 0.5256,
