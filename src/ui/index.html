@@ -1113,28 +1113,7 @@ function render() {
     const buildInfo = BUILD_INFO
       ? `Build: ${BUILD_INFO.commit?.slice(0, 7)} at ${new Date(BUILD_INFO.builtAt).toLocaleString()}`
       : 'Running from local HTML (no deploy info)';
-    view.innerHTML = renderBacktestTab(); align-items: center; gap: 10px;">
-          <span style="width: 10px; height: 10px; border-radius: 50%; background: ${h.healthy ? 'var(--accent)' : 'var(--warn)'}"></span>
-          <strong>${h.healthy ? 'All systems fresh' : 'Warnings active'}</strong>
-        </div>
-        <div style="color: var(--text-dim); font-size: 11px; margin-top: 8px;">
-          ${h.issues.length ? h.issues.map(i => `${i.source}: ${i.status}`).join('<br>') : 'Last check: just now'}
-        </div>
-        <div style="color: var(--text-faint); font-size: 10px; margin-top: 10px;">
-          ${buildInfo}
-        </div>
-      </div>
-      <div class="series-card">
-        <div class="what-if-title">Local storage</div>
-        <div style="color: var(--text-dim); font-size: 11px;">
-          ${loadLocalBets().length} bets · ${loadLocalScenarios().length} scenarios saved
-        </div>
-        <button class="btn-save-scenario" style="color: var(--danger); border-color: var(--danger); margin-top: 10px;"
-                onclick="if(confirm('Clear all local bets and scenarios?')){localStorage.removeItem('nhl-playoff-edge:bets');localStorage.removeItem('nhl-playoff-edge:scenarios');location.reload();}">
-          Clear all local data
-        </button>
-      </div>
-    `;
+    view.innerHTML = renderBacktestTab();
   }
 
   $('#footer').textContent =
