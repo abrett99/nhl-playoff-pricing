@@ -1,0 +1,17 @@
+{
+  "generated": "2026-04-17T00:00:00Z",
+  "round": 1,
+  "series": [
+    {
+      "seriesId": "R1-E1",
+      "homeTeam": "FLA",
+      "awayTeam": "TBL",
+      "homeSeeding": 1,
+      "awaySeeding": 8,
+      "seriesWinner": { "FLA": 0.72, "TBL": 0.28 },
+      "totalGames": { "4": 0.18, "5": 0.28, "6": 0.30, "7": 0.24 },
+      "homeInGames": { "4": 0.12, "5": 0.22, "6": 0.24, "7": 0.14 },
+      "awayInGames": { "4": 0.06, "5": 0.06, "6": 0.06, "7": 0.10 }
+    }
+  ]
+}

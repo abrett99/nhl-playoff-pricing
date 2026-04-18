@@ -45,3 +45,4 @@ data/raw/test_source/
 data/raw/roundtrip_test/
 data/quarantined/test_source/
 data/manifest/store.json
+data/raw/moneypuck/historical/
