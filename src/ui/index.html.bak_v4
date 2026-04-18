@@ -195,14 +195,6 @@
   .stat-val { font-size: 18px; font-weight: 700; font-family: ui-monospace, monospace; }
   .stat-sub { font-size: 10px; color: var(--text-faint); margin-top: 2px; }
 
-
-  .model-toggle-bar { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; margin-bottom: 14px; flex-wrap: wrap; }
-  .model-toggle-label { font-size: 10px; color: var(--text-dim); letter-spacing: 2px; font-weight: 600; }
-  .model-select { background: rgba(0,0,0,0.4); color: #4ecdc4; border: 1px solid rgba(78,205,196,0.3); border-radius: 4px; padding: 6px 10px; font-family: inherit; font-size: 11px; font-weight: 600; cursor: pointer; }
-  .model-select:hover { border-color: rgba(78,205,196,0.6); }
-  .model-toggle-hint { font-size: 10px; color: var(--text-faint); margin-left: auto; }
-  .agreement-badge { font-size: 9px; font-weight: 700; letter-spacing: 1px; padding: 2px 6px; border-radius: 3px; margin-left: 8px; vertical-align: middle; }
-
 </style>
 </head>
 <body>
@@ -656,74 +648,37 @@ function simulateSeriesBootstrap({ state, perGameModel, overrides = {}, bootstra
   return Object.fromEntries(Object.entries(dists).map(([k, v]) => [k, summarize(v)]));
 }
 
-function renderHistogram(samples, modelProb, marketProb, width = 460, height = 180, p10, p90) {
-  const bins = 60;
+function renderHistogram(samples, modelProb, marketProb, width = 380, height = 140) {
+  const bins = 30;
   const binWidth = 1 / bins;
   const counts = new Array(bins).fill(0);
   samples.forEach(s => {
     const idx = Math.min(Math.floor(s / binWidth), bins - 1);
     if (idx >= 0) counts[idx]++;
   });
-  const kernel = [0.05, 0.12, 0.2, 0.26, 0.2, 0.12, 0.05];
-  const smoothed = counts.map((_, i) => {
-    let sum = 0, weightSum = 0;
-    for (let k = -3; k <= 3; k++) {
-      const j = i + k;
-      if (j >= 0 && j < bins) { sum += counts[j] * kernel[k + 3]; weightSum += kernel[k + 3]; }
-    }
-    return sum / weightSum;
-  });
-  const maxVal = Math.max(...smoothed, 1);
-  const padding = { top: 20, right: 14, bottom: 32, left: 36 };
+  const maxCount = Math.max(...counts, 1);
+  const padding = { top: 10, right: 10, bottom: 24, left: 10 };
   const plotW = width - padding.left - padding.right;
   const plotH = height - padding.top - padding.bottom;
-  let pathD = 'M ' + padding.left + ' ' + (padding.top + plotH);
-  smoothed.forEach((v, i) => {
-    const x = padding.left + ((i + 0.5) / bins) * plotW;
-    const y = padding.top + plotH - (v / maxVal) * plotH;
-    pathD += ' L ' + x.toFixed(1) + ' ' + y.toFixed(1);
-  });
-  pathD += ' L ' + (padding.left + plotW) + ' ' + (padding.top + plotH) + ' Z';
-  let strokeD = '';
-  smoothed.forEach((v, i) => {
-    const x = padding.left + ((i + 0.5) / bins) * plotW;
-    const y = padding.top + plotH - (v / maxVal) * plotH;
-    strokeD += (i === 0 ? 'M ' : ' L ') + x.toFixed(1) + ' ' + y.toFixed(1);
-  });
-  let ciRect = '';
-  if (p10 != null && p90 != null) {
-    const xStart = padding.left + p10 * plotW;
-    const xEnd = padding.left + p90 * plotW;
-    ciRect = '<rect x="' + xStart + '" y="' + padding.top + '" width="' + (xEnd - xStart) + '" height="' + plotH + '" fill="rgba(78,205,196,0.08)"/>';
-  }
-  const gridlines = [0.25, 0.5, 0.75].map(pct => {
-    const x = padding.left + pct * plotW;
-    return '<line x1="' + x + '" y1="' + padding.top + '" x2="' + x + '" y2="' + (padding.top + plotH) + '" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>';
+  const bars = counts.map((c, i) => {
+    const x = padding.left + (i / bins) * plotW;
+    const w = plotW / bins - 1;
+    const h = (c / maxCount) * plotH;
+    const y = padding.top + plotH - h;
+    return '<rect x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" width="' + w.toFixed(1) + '" height="' + h.toFixed(1) + '" fill="rgba(78,205,196,0.45)"/>';
   }).join('');
   const modelX = padding.left + modelProb * plotW;
-  const modelLine = '<line x1="' + modelX + '" y1="' + padding.top + '" x2="' + modelX + '" y2="' + (padding.top + plotH) + '" stroke="#4ecdc4" stroke-width="2" stroke-dasharray="5 3"/>' +
-    '<rect x="' + (modelX - 22) + '" y="' + (padding.top - 8) + '" width="44" height="14" fill="#4ecdc4" rx="2"/>' +
-    '<text x="' + modelX + '" y="' + (padding.top + 2) + '" fill="#000" font-size="9" font-family="ui-monospace,monospace" font-weight="700" text-anchor="middle">MODEL</text>';
+  const modelLine = '<line x1="' + modelX + '" y1="' + padding.top + '" x2="' + modelX + '" y2="' + (padding.top + plotH) + '" stroke="#4ecdc4" stroke-width="2" stroke-dasharray="4 3"/><text x="' + (modelX + 4) + '" y="' + (padding.top + 12) + '" fill="#4ecdc4" font-size="10" font-family="ui-monospace,monospace" font-weight="600">MODEL</text>';
   let marketLine = '';
   if (marketProb != null && !isNaN(marketProb)) {
     const mx = padding.left + marketProb * plotW;
-    marketLine = '<line x1="' + mx + '" y1="' + padding.top + '" x2="' + mx + '" y2="' + (padding.top + plotH) + '" stroke="#ff9f43" stroke-width="2" stroke-dasharray="5 3"/>' +
-      '<rect x="' + (mx - 24) + '" y="' + (padding.top + plotH + 4) + '" width="48" height="14" fill="#ff9f43" rx="2"/>' +
-      '<text x="' + mx + '" y="' + (padding.top + plotH + 14) + '" fill="#000" font-size="9" font-family="ui-monospace,monospace" font-weight="700" text-anchor="middle">MARKET</text>';
+    marketLine = '<line x1="' + mx + '" y1="' + padding.top + '" x2="' + mx + '" y2="' + (padding.top + plotH) + '" stroke="#ff9f43" stroke-width="2" stroke-dasharray="4 3"/><text x="' + (mx - 40) + '" y="' + (padding.top + 12) + '" fill="#ff9f43" font-size="10" font-family="ui-monospace,monospace" font-weight="600">MARKET</text>';
   }
   const xLabels = [0, 25, 50, 75, 100].map(pct => {
     const x = padding.left + (pct / 100) * plotW;
-    return '<text x="' + x + '" y="' + (height - 12) + '" fill="#888" font-size="10" font-family="ui-monospace,monospace" text-anchor="middle">' + pct + '%</text>';
+    return '<text x="' + x + '" y="' + (height - 8) + '" fill="#666" font-size="9" font-family="ui-monospace,monospace" text-anchor="middle">' + pct + '%</text>';
   }).join('');
-  const xAxis = '<line x1="' + padding.left + '" y1="' + (padding.top + plotH) + '" x2="' + (padding.left + plotW) + '" y2="' + (padding.top + plotH) + '" stroke="#333" stroke-width="1"/>';
-  return '<svg viewBox="0 0 ' + width + ' ' + height + '" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;max-width:' + width + 'px;">' +
-    '<defs><linearGradient id="histGradient" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="rgba(78,205,196,0.55)"/><stop offset="100%" stop-color="rgba(78,205,196,0.1)"/></linearGradient></defs>' +
-    '<rect x="0" y="0" width="' + width + '" height="' + height + '" fill="rgba(0,0,0,0.15)" rx="6"/>' +
-    gridlines + ciRect +
-    '<path d="' + pathD + '" fill="url(#histGradient)"/>' +
-    '<path d="' + strokeD + '" fill="none" stroke="#4ecdc4" stroke-width="1.5" opacity="0.8"/>' +
-    xAxis + marketLine + modelLine + xLabels +
-    '</svg>';
+  return '<svg viewBox="0 0 ' + width + ' ' + height + '" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;max-width:' + width + 'px;"><rect x="0" y="0" width="' + width + '" height="' + height + '" fill="rgba(0,0,0,0.2)" rx="4"/>' + bars + marketLine + modelLine + xLabels + '</svg>';
 }
 
 function impliedProb(americanOdds) {
@@ -731,7 +686,6 @@ function impliedProb(americanOdds) {
   return americanOdds < 0 ? (-americanOdds) / (-americanOdds + 100) : 100 / (americanOdds + 100);
 }
 
-let activeModel = 'ensemble';
 const activeMarketTab = {};
 
 function renderSeriesCard(series) {
@@ -747,16 +701,9 @@ function renderSeriesCard(series) {
   const aOdds = sw[series.teamA];
   const bOdds = sw[series.teamB];
   const favoriteTeam = (aOdds != null && bOdds != null) ? (aOdds < bOdds ? series.teamA : series.teamB) : series.teamA;
-  const mp = series.modelPredictions;
-  let winnerAProb = mc.seriesWinner[series.teamA].prob;
-  let winnerBProb = mc.seriesWinner[series.teamB].prob;
-  if (mp && mp[activeModel]) {
-    winnerAProb = mp[activeModel][series.teamA];
-    winnerBProb = mp[activeModel][series.teamB];
-  }
   const marketTabs = [
-    { id: 'winA', label: series.teamA + ' Series', dist: boot.winnerA, modelProb: winnerAProb, book: sw[series.teamA] },
-    { id: 'winB', label: series.teamB + ' Series', dist: boot.winnerB, modelProb: winnerBProb, book: sw[series.teamB] },
+    { id: 'winA', label: series.teamA + ' Series', dist: boot.winnerA, modelProb: mc.seriesWinner[series.teamA].prob, book: sw[series.teamA] },
+    { id: 'winB', label: series.teamB + ' Series', dist: boot.winnerB, modelProb: mc.seriesWinner[series.teamB].prob, book: sw[series.teamB] },
     { id: 'o55',  label: 'O 5.5',   dist: boot.over55,       modelProb: mc.totalGames.over55.prob,  book: bp.over55 },
     { id: 'u55',  label: 'U 5.5',   dist: boot.under55,      modelProb: mc.totalGames.under55.prob, book: bp.under55 },
     { id: 'o65',  label: 'O 6.5',   dist: boot.over65,       modelProb: (mc.totalGames.over65 && mc.totalGames.over65.prob) || 0,  book: bp.over65 },
@@ -784,7 +731,7 @@ function renderSeriesCard(series) {
   const modelProbPct = (activeMarket.modelProb * 100).toFixed(1);
   const edgeDisplay = activeMarket.edge == null ? '—' : ((activeMarket.edge >= 0 ? '+' : '') + (activeMarket.edge * 100).toFixed(1) + '%');
   const edgeColor = activeMarket.edge == null ? '#888' : (activeMarket.edge >= 0.03 ? '#6bcb77' : activeMarket.edge <= -0.03 ? '#ff6b6b' : '#ff9f43');
-  const histogram = renderHistogram(activeMarket.dist.samples, activeMarket.modelProb, activeMarket.marketProb, 460, 180, activeMarket.dist.p10, activeMarket.dist.p90);
+  const histogram = renderHistogram(activeMarket.dist.samples, activeMarket.modelProb, activeMarket.marketProb);
   const ci80 = (activeMarket.dist.p10 * 100).toFixed(1) + '% – ' + (activeMarket.dist.p90 * 100).toFixed(1) + '%';
   const goalies = Object.entries(series.goalieFeatures);
   const hStarterId = (overrides.goalieOverrides && overrides.goalieOverrides.perTeam && overrides.goalieOverrides.perTeam[series.teamA]) || series.currentStarters[series.teamA].playerId;
@@ -803,20 +750,10 @@ function render() {
   const data = currentData();
 
   if (currentTab === 'series') {
-    view.innerHTML = '<div class="model-toggle-bar"><span class="model-toggle-label">MODEL:</span><select id="modelSelect" class="model-select"><option value="ensemble">Ensemble (60/40)</option><option value="xg">xG-v3</option><option value="goals">Goals-v2</option></select><span class="model-toggle-hint">60% xG + 40% goals</span></div><div class="series-grid">' + data.series.map(renderSeriesCard).join('') + '</div>' ||
+    view.innerHTML = '<div class="series-grid">' + data.series.map(renderSeriesCard).join('') + '</div>' ||
       '<div class="loading">No active series.</div>';
 
     // Wire goalie overrides
-    // Wire model selector
-    const modelSel = document.getElementById('modelSelect');
-    if (modelSel) {
-      modelSel.value = activeModel;
-      modelSel.addEventListener('change', (e) => {
-        activeModel = e.target.value;
-        render();
-      });
-    }
-
     document.querySelectorAll('.goalie-override').forEach(sel => {
       sel.addEventListener('change', (e) => {
         const seriesId = e.target.dataset.series;
