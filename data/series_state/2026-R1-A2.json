@@ -56,5 +56,17 @@
       "gsax_per_60": 0.483058210251955
     }
   },
-  "bookPrices": null
+  "bookPrices": null,
+  "seriesWinner": {
+    "TBL": 0.6392,
+    "MTL": 0.3608
+  },
+  "totalGames": {
+    "4": 0.12,
+    "5": 0.24,
+    "6": 0.32,
+    "7": 0.32
+  },
+  "over55": 0.58,
+  "goesToSeven": 0.32
 }
