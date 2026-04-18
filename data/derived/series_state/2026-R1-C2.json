@@ -1,0 +1,60 @@
+{
+  "seriesId": "2026-R1-C2",
+  "teamA": "DAL",
+  "teamB": "MIN",
+  "round": 1,
+  "winsA": 0,
+  "winsB": 0,
+  "status": "pre",
+  "game1Start": "2026-04-18T17:30:00-04:00",
+  "gamesPlayed": [],
+  "currentStarters": {
+    "DAL": {
+      "playerId": "8479979",
+      "name": "Jake Oettinger"
+    },
+    "MIN": {
+      "playerId": "8482661",
+      "name": "Jesper Wallstedt"
+    }
+  },
+  "backupGoalies": {
+    "DAL": {
+      "playerId": "8479193",
+      "name": "Casey DeSmith"
+    },
+    "MIN": {
+      "playerId": "8479406",
+      "name": "Filip Gustavsson"
+    }
+  },
+  "teamFeatures": {
+    "DAL": {
+      "xgf_per_60": 2.35,
+      "xga_per_60": 2.3,
+      "pp_pct": 10.5,
+      "pk_pct": 88.6
+    },
+    "MIN": {
+      "xgf_per_60": 2.54,
+      "xga_per_60": 2.4,
+      "pp_pct": 8.5,
+      "pk_pct": 88.3
+    }
+  },
+  "goalieFeatures": {
+    "8479193": {
+      "gsax_per_60": 0.44980069465488703
+    },
+    "8479406": {
+      "gsax_per_60": 0.11805773347696256
+    },
+    "8479979": {
+      "gsax_per_60": 0.12368058742542452
+    },
+    "8482661": {
+      "gsax_per_60": 0.06371872562548735
+    }
+  },
+  "bookPrices": null
+}

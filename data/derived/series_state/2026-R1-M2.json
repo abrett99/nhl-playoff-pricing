@@ -1,0 +1,60 @@
+{
+  "seriesId": "2026-R1-M2",
+  "teamA": "PIT",
+  "teamB": "PHI",
+  "round": 1,
+  "winsA": 0,
+  "winsB": 0,
+  "status": "pre",
+  "game1Start": "2026-04-18T20:00:00-04:00",
+  "gamesPlayed": [],
+  "currentStarters": {
+    "PIT": {
+      "playerId": "8479973",
+      "name": "Stuart Skinner"
+    },
+    "PHI": {
+      "playerId": "8478435",
+      "name": "Dan Vladar"
+    }
+  },
+  "backupGoalies": {
+    "PIT": {
+      "playerId": "8477465",
+      "name": "Tristan Jarry"
+    },
+    "PHI": {
+      "playerId": "8481035",
+      "name": "Samuel Ersson"
+    }
+  },
+  "teamFeatures": {
+    "PIT": {
+      "xgf_per_60": 2.66,
+      "xga_per_60": 2.54,
+      "pp_pct": 8.2,
+      "pk_pct": 89.7
+    },
+    "PHI": {
+      "xgf_per_60": 2.27,
+      "xga_per_60": 2.2,
+      "pp_pct": 5.3,
+      "pk_pct": 86.4
+    }
+  },
+  "goalieFeatures": {
+    "8477465": {
+      "gsax_per_60": -0.07401967983551155
+    },
+    "8478435": {
+      "gsax_per_60": 0.4635550089354272
+    },
+    "8479973": {
+      "gsax_per_60": 0.1582492263505996
+    },
+    "8481035": {
+      "gsax_per_60": -0.5596831735017838
+    }
+  },
+  "bookPrices": null
+}
